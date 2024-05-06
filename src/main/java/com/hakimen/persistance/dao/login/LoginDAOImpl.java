@@ -1,6 +1,5 @@
 package com.hakimen.persistance.dao.login;
 
-import com.hakimen.model.Dentist;
 import com.hakimen.model.Login;
 import com.hakimen.persistance.JPAInstance;
 

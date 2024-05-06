@@ -3,22 +3,22 @@ package com.hakimen.model;
 import javax.persistence.*;
 
 @Entity
-public class Dentist {
+public class Receptionist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Integer cro;
+    private Integer id;
 
     @OneToOne
     @JoinColumn(name = "login_id")
     private Login login;
 
-    public Integer getCro() {
-        return cro;
+    public Integer getId() {
+        return id;
     }
 
-    public Dentist setCro(Integer cro) {
-        this.cro = cro;
+    public Receptionist setId(Integer id) {
+        this.id = id;
         return this;
     }
 
@@ -26,7 +26,7 @@ public class Dentist {
         return login;
     }
 
-    public Dentist setLogin(Login login) {
+    public Receptionist setLogin(Login login) {
         this.login = login;
         return this;
     }

@@ -1,7 +1,5 @@
 package com.hakimen.persistance;
 
-import org.osgi.service.jpa.EntityManagerFactoryBuilder;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
