@@ -1,7 +1,6 @@
 package com.hakimen.persistance.dao.appointment;
 
 import com.hakimen.model.Appointment;
-import com.hakimen.model.Dentist;
 import com.hakimen.persistance.JPAInstance;
 
 import javax.persistence.NoResultException;

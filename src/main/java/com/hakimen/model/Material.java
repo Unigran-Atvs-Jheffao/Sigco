@@ -15,8 +15,17 @@ public class Material {
     private Integer minQuantity;
 
     @ManyToOne
-    @JoinColumn(name = "manager_id")
-    private Manager manager;
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public Material setEmployee(Employee employee) {
+        this.employee = employee;
+        return this;
+    }
 
     public Integer getId() {
         return id;
@@ -54,12 +63,4 @@ public class Material {
         return this;
     }
 
-    public Manager getManager() {
-        return manager;
-    }
-
-    public Material setManager(Manager manager) {
-        this.manager = manager;
-        return this;
-    }
 }

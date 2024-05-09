@@ -3,22 +3,23 @@
     <persistence-unit name="sigcoPU" transaction-type="RESOURCE_LOCAL">
 
         <!--  Base Model Classes      -->
+        <class>com.hakimen.model.Appointment</class>
+        <class>com.hakimen.model.Employee</class>
+        <class>com.hakimen.model.Login</class>
+        <class>com.hakimen.model.Material</class>
         <class>com.hakimen.model.MedicalRecord</class>
         <class>com.hakimen.model.Pacient</class>
-        <class>com.hakimen.model.Receptionist</class>
-        <class>com.hakimen.model.Dentist</class>
-        <class>com.hakimen.model.Login</class>
-        <class>com.hakimen.model.Manager</class>
-        <class>com.hakimen.model.Appointment</class>
-        <class>com.hakimen.model.Material</class>
+        <class>com.hakimen.model.PaymentMethod</class>
+        <class>com.hakimen.model.Role</class>
         <class>com.hakimen.model.Scheduling</class>
 
         <!--  Auxiliar Model classes      -->
         <class>com.hakimen.model.auxiliar.Address</class>
-        <class>com.hakimen.model.auxiliar.City</class>
-        <class>com.hakimen.model.auxiliar.State</class>
         <class>com.hakimen.model.auxiliar.Attachment</class>
+        <class>com.hakimen.model.auxiliar.City</class>
         <class>com.hakimen.model.auxiliar.Contact</class>
+        <class>com.hakimen.model.auxiliar.PaymentType</class>
+        <class>com.hakimen.model.auxiliar.State</class>
 
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <properties>

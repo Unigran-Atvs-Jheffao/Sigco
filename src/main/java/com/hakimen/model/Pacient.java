@@ -16,10 +16,8 @@ public class Pacient {
     private String name;
     private String cpf;
     private Date dateOfBirth;
-
     private String homeNumber;
     private String responsible;
-
 
     @OneToOne
     @JoinColumn(name = "medical_record_id")

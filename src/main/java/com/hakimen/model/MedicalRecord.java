@@ -13,10 +13,10 @@ public class MedicalRecord {
     @JoinColumn(name = "pacient_id")
     private Pacient pacient;
 
+
     @OneToMany
     @JoinColumn(name = "appointment_id")
     List<Appointment> history;
-
 
     public Integer getId() {
         return id;

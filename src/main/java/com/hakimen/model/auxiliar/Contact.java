@@ -1,5 +1,7 @@
 package com.hakimen.model.auxiliar;
 
+import com.sun.jdi.IntegerType;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,11 +12,9 @@ public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String value;
 
-    private String email;
-    private String mainPhoneNumber;
-    private String secondPhoneNumber;
-
+    private Integer type;
     public Integer getId() {
         return id;
     }
@@ -24,30 +24,21 @@ public class Contact {
         return this;
     }
 
-    public String getEmail() {
-        return email;
+    public String getValue() {
+        return value;
     }
 
-    public Contact setEmail(String email) {
-        this.email = email;
+    public Contact setValue(String value) {
+        this.value = value;
         return this;
     }
 
-    public String getMainPhoneNumber() {
-        return mainPhoneNumber;
+    public Integer getType() {
+        return type;
     }
 
-    public Contact setMainPhoneNumber(String mainPhoneNumber) {
-        this.mainPhoneNumber = mainPhoneNumber;
-        return this;
-    }
-
-    public String getSecondPhoneNumber() {
-        return secondPhoneNumber;
-    }
-
-    public Contact setSecondPhoneNumber(String secondPhoneNumber) {
-        this.secondPhoneNumber = secondPhoneNumber;
+    public Contact setType(Integer type) {
+        this.type = type;
         return this;
     }
 }

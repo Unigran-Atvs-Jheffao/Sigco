@@ -8,24 +8,22 @@ import java.util.Date;
 public class Scheduling {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Integer id;
 
     private Date date;
     private String appointmentTime;
-
 
     @ManyToOne
     @JoinColumn(name = "pacient_id")
     private Pacient pacient;
 
     @ManyToOne
-    @JoinColumn(name = "dentist_cro")
-    private Dentist dentist;
+    @JoinColumn(name = "dentist_id")
+    private Employee dentist;
 
     @ManyToOne
     @JoinColumn(name = "receptionist_id")
-    private Receptionist receptionist;
+    private Employee receptionist;
 
     @OneToOne
     @JoinColumn(name = "appointment_id")
@@ -68,20 +66,20 @@ public class Scheduling {
         return this;
     }
 
-    public Dentist getDentist() {
+    public Employee getDentist() {
         return dentist;
     }
 
-    public Scheduling setDentist(Dentist dentist) {
+    public Scheduling setDentist(Employee dentist) {
         this.dentist = dentist;
         return this;
     }
 
-    public Receptionist getReceptionist() {
+    public Employee getReceptionist() {
         return receptionist;
     }
 
-    public Scheduling setReceptionist(Receptionist receptionist) {
+    public Scheduling setReceptionist(Employee receptionist) {
         this.receptionist = receptionist;
         return this;
     }

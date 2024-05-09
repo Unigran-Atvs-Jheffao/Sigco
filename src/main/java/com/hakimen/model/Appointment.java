@@ -10,14 +10,25 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String observations;
 
+    @OneToOne
+    @JoinColumn(name = "with_dentist_id")
+    private Employee withDentist;
     @OneToMany
-    @JoinColumn(name = "attachment_id")
+    @JoinColumn(name = "attachments_id")
     private List<Attachment> attachments;
 
     private Float value;
+
+    public Employee getWithDentist() {
+        return withDentist;
+    }
+
+    public Appointment setWithDentist(Employee withDentist) {
+        this.withDentist = withDentist;
+        return this;
+    }
 
     public Integer getId() {
         return id;
