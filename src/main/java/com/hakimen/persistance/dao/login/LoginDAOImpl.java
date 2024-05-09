@@ -8,20 +8,6 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class LoginDAOImpl implements LoginDAO{
-    @Override
-    public void insert(Login obj) {
-        JPAInstance.INSTANCE.save(obj);
-    }
-
-    @Override
-    public void remove(Login obj) {
-        JPAInstance.INSTANCE.remove(obj);
-    }
-
-    @Override
-    public void update(Login obj) {
-        JPAInstance.INSTANCE.update(obj);
-    }
 
     @Override
     public Login getById(Integer id) throws NoResultException {
