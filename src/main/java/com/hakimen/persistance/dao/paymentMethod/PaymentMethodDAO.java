@@ -1,4 +1,4 @@
-package com.hakimen.persistance.dao.payment_method;
+package com.hakimen.persistance.dao.paymentMethod;
 
 import com.hakimen.model.PaymentMethod;
 import com.hakimen.persistance.dao.DAO;
