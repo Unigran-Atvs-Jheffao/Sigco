@@ -4,13 +4,24 @@ import com.hakimen.exceptions.InvalidValueException;
 import com.hakimen.model.Role;
 
 public class RoleDTO implements DTO<Role> {
+    private Integer id;
 
     private String name;
     private String description;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public RoleDTO setId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
     public String getName() {
         return name;
     }
+
 
     public RoleDTO setName(String name) {
         this.name = name;

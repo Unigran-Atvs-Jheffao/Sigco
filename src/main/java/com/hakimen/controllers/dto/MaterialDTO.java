@@ -8,12 +8,58 @@ import com.hakimen.model.Material;
 import javax.persistence.NoResultException;
 
 public class MaterialDTO implements DTO<Material> {
+    private Integer id;
 
     private String name;
     private Integer quantity;
     private Integer minQuantity;
 
     private Integer employeeId;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public MaterialDTO setId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public MaterialDTO setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public MaterialDTO setQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this;
+    }
+
+    public Integer getMinQuantity() {
+        return minQuantity;
+    }
+
+    public MaterialDTO setMinQuantity(Integer minQuantity) {
+        this.minQuantity = minQuantity;
+        return this;
+    }
+
+    public Integer getEmployeeId() {
+        return employeeId;
+    }
+
+    public MaterialDTO setEmployeeId(Integer employeeId) {
+        this.employeeId = employeeId;
+        return this;
+    }
 
     @Override
     public Material build() throws InvalidValueException {

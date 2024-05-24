@@ -11,6 +11,10 @@ import java.util.List;
 
 public class MedicalRecordController implements Controller<MedicalRecordDTO>{
     private static MedicalRecordDAO MEDICALRECORD_DAO = new MedicalRecordDAOImpl();
+    public static MedicalRecordDAO getMedicalrecordDao(){
+        return MEDICALRECORD_DAO;
+    }
+
 
     @Override
     public void insert(MedicalRecordDTO type) throws InvalidValueException {

@@ -8,10 +8,20 @@ import com.hakimen.model.Role;
 import javax.persistence.NoResultException;
 
 public class LoginDTO implements DTO<Login> {
+    private Integer id;
 
     private String username;
     private String password;
     private Integer roleId;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public LoginDTO setId(Integer id) {
+        this.id = id;
+        return this;
+    }
 
     public String getUsername() {
         return username;
