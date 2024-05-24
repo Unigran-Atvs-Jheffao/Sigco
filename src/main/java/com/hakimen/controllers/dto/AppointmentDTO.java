@@ -6,6 +6,7 @@ import com.hakimen.model.Role;
 
 public class AppointmentDTO implements DTO<Appointment> {
 
+
     private String name;
     private String description;
 

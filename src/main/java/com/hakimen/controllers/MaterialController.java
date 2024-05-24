@@ -15,8 +15,8 @@ public class MaterialController implements Controller<MaterialDTO> {
 
 
     @Override
-    public void insert(MaterialDTO type) throws InvalidValueException {
-        MATERIAL_DAO.insert(type.build());
+    public void update(MaterialDTO type) throws InvalidValueException {
+        MATERIAL_DAO.update(type.build());
     }
 
     @Override
@@ -25,7 +25,7 @@ public class MaterialController implements Controller<MaterialDTO> {
     }
 
     @Override
-    public void update(MaterialDTO type) throws InvalidValueException {
-        MATERIAL_DAO.update(type.build());
+    public void insert(MaterialDTO type) throws InvalidValueException {
+        MATERIAL_DAO.insert(type.build());
     }
 }

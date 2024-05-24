@@ -8,6 +8,7 @@ import com.hakimen.model.Login;
 import javax.persistence.NoResultException;
 
 public class EmployeeDTO implements DTO<Employee>{
+
     private String registration;
     private Integer loginId;
 
