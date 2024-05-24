@@ -30,6 +30,12 @@ dependencies {
     //Driver Postgres
     implementation 'org.postgresql:postgresql:42.7.3'
 
+    //Flat laf pra ficar bunitão
+    implementation 'com.formdev:flatlaf:3.4.1'
+
+    //Lib de componente de calendario
+    implementation 'com.toedter:jcalendar:1.4'
+
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
