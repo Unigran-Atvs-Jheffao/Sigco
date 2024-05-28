@@ -26,6 +26,8 @@ public class GenericRegisterView extends JDialog implements View{
         setVisible(true);
     }
 
+    //TODO: make a constructor that accepts a DTO to make it possible to edit a type
+
     public void addComponents(){
         buttonPanel = new JPanel();
 

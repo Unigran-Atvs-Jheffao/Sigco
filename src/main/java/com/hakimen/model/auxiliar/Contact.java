@@ -15,6 +15,8 @@ public class Contact {
     private String value;
 
     private Integer type;
+
+
     public Integer getId() {
         return id;
     }
