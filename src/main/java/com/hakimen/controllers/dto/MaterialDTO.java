@@ -61,9 +61,22 @@ public class MaterialDTO implements DTO<Material> {
         return this;
     }
 
+    public MaterialDTO(Material material) {
+        id = material.getId();
+        name = material.getName();
+        quantity = material.getQuantity();
+        minQuantity = material.getMinQuantity();
+        employeeId = material.getEmployee().getId();
+    }
+
+    public MaterialDTO() {
+    }
+
     @Override
     public Material build() throws InvalidValueException {
         Material material = new Material();
+
+        material.setId(id != null && id > 0 ? id : null);
 
         if(name == null || name.isBlank()) throw new InvalidValueException("Nome Inválido");
         material.setName(name);
@@ -75,10 +88,10 @@ public class MaterialDTO implements DTO<Material> {
         material.setQuantity(quantity);
 
         try{
-            Employee employee = EmployeeController.getDAO().getById(employeeId);
+            Employee employee = EmployeeController.INSTANCE.getById(employeeId).build();
             material.setEmployee(employee);
-        } catch (NoResultException exception) {
-            throw new InvalidValueException("Funcionario Inválido", exception);
+        } catch (NoResultException e) {
+            throw new InvalidValueException("Funcionario Inválido", e);
         }
 
         return material;

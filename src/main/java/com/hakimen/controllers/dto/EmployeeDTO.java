@@ -13,6 +13,16 @@ public class EmployeeDTO implements DTO<Employee>{
     private String registration;
     private Integer loginId;
 
+    public EmployeeDTO(){
+
+    }
+
+    public EmployeeDTO(Employee employee) {
+        id = employee.getId();
+        registration = employee.getRegistration();
+        loginId = employee.getLogin().getId();
+    }
+
     public Integer getId() {
         return id;
     }
@@ -45,14 +55,16 @@ public class EmployeeDTO implements DTO<Employee>{
 
         Employee employee = new Employee();
 
+        employee.setId(id != null && id > 0 ? id : null);
+
         if(registration == null || registration.isBlank()) throw new InvalidValueException("Registro Inválido");
         employee.setRegistration(registration);
 
         try {
-            Login login = LoginController.getDAO().getById(loginId);
+            Login login = LoginController.INSTANCE.getById(loginId).build();
             employee.setLogin(login);
-        } catch (NoResultException exception){
-            throw new InvalidValueException("Login Inválido", exception);
+        } catch (NoResultException e){
+            throw new InvalidValueException("Login Inválido", e);
         }
 
         return employee;

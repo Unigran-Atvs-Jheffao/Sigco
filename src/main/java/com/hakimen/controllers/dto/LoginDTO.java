@@ -50,9 +50,22 @@ public class LoginDTO implements DTO<Login> {
         return this;
     }
 
+    public LoginDTO(Login login) {
+        id = login.getId();
+        username = login.getUsername();
+        password = login.getPassword();
+        roleId = login.getRole().getId();
+    }
+
+    public LoginDTO(){
+
+    }
+
     @Override
     public Login build() throws InvalidValueException {
         Login login = new Login();
+
+        login.setId(id != null && id > 0 ? id : null);
 
         if(username == null || username.isBlank()) throw new InvalidValueException("Nome de usuário inválido");
         login.setUsername(username);
@@ -61,10 +74,10 @@ public class LoginDTO implements DTO<Login> {
         login.setPassword(password);
 
         try {
-            Role role = RoleController.getDAO().getById(roleId);
+            Role role = RoleController.INSTANCE.getById(roleId).build();
             login.setRole(role);
-        } catch (NoResultException exception){
-            throw new InvalidValueException("Cargo Inválido", exception);
+        } catch (NoResultException e){
+            throw new InvalidValueException("Cargo Inválido", e);
         }
 
         return login;

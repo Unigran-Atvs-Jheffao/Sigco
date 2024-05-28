@@ -2,14 +2,23 @@ package com.hakimen.controllers;
 
 import com.hakimen.controllers.dto.MaterialDTO;
 import com.hakimen.exceptions.InvalidValueException;
-import com.hakimen.persistance.dao.material.MaterialDAO;
-import com.hakimen.persistance.dao.material.MaterialDAOImpl;
+import com.hakimen.model.Material;
+import com.hakimen.persistance.dao.main.material.MaterialDAO;
+import com.hakimen.persistance.dao.main.material.MaterialDAOImpl;
+
+import java.util.List;
 
 public class MaterialController implements Controller<MaterialDTO> {
+    
+    public static MaterialController INSTANCE = new MaterialController();
 
-    private static MaterialDAO MATERIAL_DAO = new MaterialDAOImpl();
+    private MaterialController(){
 
-    public static MaterialDAO getDAO(){
+    };
+
+    private MaterialDAO MATERIAL_DAO = new MaterialDAOImpl();
+
+    public MaterialDAO getDAO(){
         return MATERIAL_DAO;
     }
 
@@ -27,5 +36,15 @@ public class MaterialController implements Controller<MaterialDTO> {
     @Override
     public void insert(MaterialDTO type) throws InvalidValueException {
         MATERIAL_DAO.insert(type.build());
+    }
+
+    @Override
+    public List<MaterialDTO> getAll() {
+        return MATERIAL_DAO.getAll().stream().map(MaterialDTO::new).toList();
+    }
+
+    @Override
+    public MaterialDTO getById(int id) throws InvalidValueException {
+        return new MaterialDTO(MATERIAL_DAO.getById(id));
     }
 }

@@ -37,9 +37,17 @@ public class RoleDTO implements DTO<Role> {
         return this;
     }
 
+    public RoleDTO(Role role){
+        this.id = role.getId();
+        this.name = role.getName();
+        this.description = role.getDescription();
+    }
+
     @Override
     public Role build() throws InvalidValueException {
         Role role = new Role();
+
+        role.setId(id != null && id > 0 ? id : null);
 
         if(name == null || name.isBlank()) throw new InvalidValueException("Nome Inválido");
         role.setName(name);

@@ -3,12 +3,22 @@ package com.hakimen.controllers;
 
 import com.hakimen.controllers.dto.RoleDTO;
 import com.hakimen.exceptions.InvalidValueException;
-import com.hakimen.persistance.dao.role.RoleDAO;
-import com.hakimen.persistance.dao.role.RoleDAOImpl;
+import com.hakimen.persistance.dao.main.role.RoleDAO;
+import com.hakimen.persistance.dao.main.role.RoleDAOImpl;
+
+import java.util.List;
 
 public class RoleController implements Controller<RoleDTO> {
-    private static RoleDAO ROLE_DAO = new RoleDAOImpl();
-    public static RoleDAO getDAO() {
+
+    public static RoleController INSTANCE = new RoleController();
+
+    private RoleController(){
+
+    };
+
+
+    private RoleDAO ROLE_DAO = new RoleDAOImpl();
+    public RoleDAO getDAO() {
         return ROLE_DAO;
     }
 
@@ -25,5 +35,15 @@ public class RoleController implements Controller<RoleDTO> {
     @Override
     public void update(RoleDTO type) throws InvalidValueException {
         ROLE_DAO.update(type.build());
+    }
+
+    @Override
+    public List<RoleDTO> getAll() {
+        return ROLE_DAO.getAll().stream().map(RoleDTO::new).toList();
+    }
+
+    @Override
+    public RoleDTO getById(int id) throws InvalidValueException {
+        return new RoleDTO(ROLE_DAO.getById(id));
     }
 }

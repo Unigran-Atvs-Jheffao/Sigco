@@ -2,13 +2,23 @@ package com.hakimen.controllers;
 
 import com.hakimen.controllers.dto.PacientDTO;
 import com.hakimen.exceptions.InvalidValueException;
-import com.hakimen.persistance.dao.pacient.PacientDAO;
-import com.hakimen.persistance.dao.pacient.PacientDAOImpl;
+import com.hakimen.persistance.dao.main.pacient.PacientDAO;
+import com.hakimen.persistance.dao.main.pacient.PacientDAOImpl;
+
+import java.util.List;
 
 public class PacientController implements Controller<PacientDTO> {
-    private static PacientDAO PACIENT_DAO = new PacientDAOImpl();
 
-    public static PacientDAO getDAO() {
+    public static PacientController INSTANCE = new PacientController();
+
+    private PacientController(){
+
+    };
+
+
+    private PacientDAO PACIENT_DAO = new PacientDAOImpl();
+
+    public PacientDAO getDAO() {
         return PACIENT_DAO;
     }
     @Override
@@ -26,4 +36,13 @@ public class PacientController implements Controller<PacientDTO> {
         PACIENT_DAO.insert(type.build());
     }
 
+    @Override
+    public List<PacientDTO> getAll() {
+        return PACIENT_DAO.getAll().stream().map(PacientDTO::new).toList();
+    }
+
+    @Override
+    public PacientDTO getById(int id) throws InvalidValueException {
+        return new PacientDTO(PACIENT_DAO.getById(id));
+    }
 }

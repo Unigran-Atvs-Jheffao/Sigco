@@ -1,10 +1,15 @@
 package com.hakimen.controllers.dto;
 
+import com.hakimen.controllers.auxiliar.AddressController;
+import com.hakimen.controllers.auxiliar.ContactController;
+import com.hakimen.controllers.MedicalRecordController;
 import com.hakimen.exceptions.InvalidValueException;
+import com.hakimen.model.MedicalRecord;
 import com.hakimen.model.Pacient;
 import com.hakimen.model.auxiliar.Address;
 import com.hakimen.model.auxiliar.Contact;
 
+import javax.persistence.NoResultException;
 import java.util.Date;
 
 public class PacientDTO implements DTO<Pacient> {
@@ -101,15 +106,67 @@ public class PacientDTO implements DTO<Pacient> {
         return this;
     }
 
+    public PacientDTO(Pacient pacient) {
+        id = pacient.getId();
+        name = pacient.getName();
+        cpf = pacient.getCpf();
+        dateOfBirth = pacient.getDateOfBirth();
+        homeNumber = pacient.getHomeNumber();
+        responsible = pacient.getResponsible();
+
+        medicalRecordId = pacient.getMedicalRecord().getId();
+        contactId = pacient.getContact().getId();
+        addressId = pacient.getAddress().getId();
+    }
+
+    public PacientDTO() {
+    }
+
     @Override
     public Pacient build() throws InvalidValueException {
         Pacient pacient = new Pacient();
 
+        pacient.setId(id != null && id > 0 ? id : null);
+
+
         if(name == null || name.isBlank()) throw new InvalidValueException("Nome Inválido");
         pacient.setName(name);
 
+        if(cpf == null || cpf.isBlank()) throw new InvalidValueException("CPF Inválido");
+        pacient.setCpf(cpf);
 
-        //TODO implementar o resto....
+        if(dateOfBirth == null) throw new InvalidValueException("Data de Nascimento Inválida");
+        pacient.setDateOfBirth(dateOfBirth);
+
+        if(responsible != null && !responsible.isBlank()) {
+            pacient.setResponsible(responsible);
+        }
+
+        if(homeNumber != null) throw new InvalidValueException("Numero da Casa Inválido");
+        pacient.setHomeNumber(homeNumber);
+
+
+        try{
+            MedicalRecord record = MedicalRecordController.INSTANCE.getById(medicalRecordId).build();
+            pacient.setMedicalRecord(record);
+        } catch (NoResultException e) {
+            throw new InvalidValueException("Prontuário Inválido", e);
+        }
+
+        try{
+            Contact contact = ContactController.INSTANCE.getById(contactId).build();
+            pacient.setContact(contact);
+        } catch (NoResultException e) {
+            throw new InvalidValueException("Contato Inválido", e);
+        }
+
+        try{
+            Address address = AddressController.INSTANCE.getById(addressId).build();
+            pacient.setAddress(address);
+        } catch (NoResultException e) {
+            throw new InvalidValueException("Endereço Inválido", e);
+        }
+
         return pacient;
     }
 }

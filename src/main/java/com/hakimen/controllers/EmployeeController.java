@@ -3,13 +3,22 @@ package com.hakimen.controllers;
 import com.hakimen.controllers.dto.EmployeeDTO;
 import com.hakimen.exceptions.InvalidValueException;
 import com.hakimen.model.Employee;
-import com.hakimen.persistance.dao.employee.EmployeeDAO;
-import com.hakimen.persistance.dao.employee.EmployeeDAOImpl;
+import com.hakimen.persistance.dao.main.employee.EmployeeDAO;
+import com.hakimen.persistance.dao.main.employee.EmployeeDAOImpl;
+
+import java.util.List;
 
 public class EmployeeController implements Controller<EmployeeDTO> {
-    private static EmployeeDAO EMPLOYEE_DAO = new EmployeeDAOImpl();
 
-    public static EmployeeDAO getDAO(){
+    public static EmployeeController INSTANCE = new EmployeeController();
+
+    private EmployeeController(){
+
+    };
+
+    private EmployeeDAO EMPLOYEE_DAO = new EmployeeDAOImpl();
+
+    public EmployeeDAO getDAO(){
         return EMPLOYEE_DAO;
     }
 
@@ -26,5 +35,15 @@ public class EmployeeController implements Controller<EmployeeDTO> {
     @Override
     public void update(EmployeeDTO dto) throws InvalidValueException {
         EMPLOYEE_DAO.update(dto.build());
+    }
+
+    @Override
+    public List<EmployeeDTO> getAll() {
+        return EMPLOYEE_DAO.getAll().stream().map(EmployeeDTO::new).toList();
+    }
+
+    @Override
+    public EmployeeDTO getById(int id) throws InvalidValueException {
+        return new EmployeeDTO(EMPLOYEE_DAO.getById(id));
     }
 }

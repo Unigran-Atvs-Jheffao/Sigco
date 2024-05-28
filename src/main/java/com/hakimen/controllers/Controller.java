@@ -9,4 +9,7 @@ public interface Controller<T extends DTO<?>> {
     void insert(T type) throws InvalidValueException;
     void remove(T type) throws InvalidValueException;
     void update(T type) throws InvalidValueException;
+
+    List<T> getAll();
+    T getById(int id) throws InvalidValueException;
 }
