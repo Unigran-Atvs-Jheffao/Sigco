@@ -16,4 +16,13 @@ public class PaymentType {
         this.id = id;
         return this;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public PaymentType setName(String name) {
+        this.name = name;
+        return this;
+    }
 }

@@ -29,4 +29,13 @@ public class Employee {
         this.login = login;
         return this;
     }
+
+    public String getRegistration() {
+        return registration;
+    }
+
+    public Employee setRegistration(String registration) {
+        this.registration = registration;
+        return this;
+    }
 }
