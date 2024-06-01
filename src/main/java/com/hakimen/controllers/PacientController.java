@@ -1,10 +1,12 @@
 package com.hakimen.controllers;
 
+import com.hakimen.controllers.dto.MaterialDTO;
 import com.hakimen.controllers.dto.PacientDTO;
 import com.hakimen.exceptions.InvalidValueException;
 import com.hakimen.persistance.dao.main.pacient.PacientDAO;
 import com.hakimen.persistance.dao.main.pacient.PacientDAOImpl;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class PacientController implements Controller<PacientDTO> {
@@ -44,5 +46,17 @@ public class PacientController implements Controller<PacientDTO> {
     @Override
     public PacientDTO getById(int id) throws InvalidValueException {
         return new PacientDTO(PACIENT_DAO.getById(id));
+    }
+
+    public PacientDTO getByCPF(String cpf) throws InvalidValueException {
+        try {
+            return new PacientDTO(PACIENT_DAO.getByCPF(cpf));
+        } catch (NoResultException e) {
+            throw new InvalidValueException("CPF inválido");
+        }
+    }
+
+    public List<PacientDTO> findAllFiltered(boolean asc, String key, String query){
+        return PACIENT_DAO.findAllFiltered(asc,key,query).stream().map(PacientDTO::new).toList();
     }
 }

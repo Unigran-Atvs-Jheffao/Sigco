@@ -20,4 +20,12 @@ public class CityDAOImpl implements CityDAO {
         TypedQuery<City> query = JPAInstance.INSTANCE.getManager().createQuery("select a from City a", City.class);
         return query.getResultList();
     }
+
+    @Override
+    public City getByNameAndState(String name, String state) {
+        TypedQuery<City> query = JPAInstance.INSTANCE.getManager().createQuery("select a from City a where a.name = :name and a.state.name = :state", City.class);
+        query.setParameter("name", name);
+        query.setParameter("state", state);
+        return query.getSingleResult();
+    }
 }

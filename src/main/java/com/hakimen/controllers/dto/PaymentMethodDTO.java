@@ -1,34 +1,29 @@
 package com.hakimen.controllers.dto;
 
-import com.hakimen.controllers.AppointmentController;
-import com.hakimen.controllers.auxiliar.PaymentTypeController;
+import com.hakimen.controllers.dto.auxiliar.PaymentTypeDTO;
 import com.hakimen.exceptions.InvalidValueException;
-import com.hakimen.model.Appointment;
 import com.hakimen.model.PaymentMethod;
-import com.hakimen.model.auxiliar.PaymentType;
-
-import javax.persistence.NoResultException;
 
 public class PaymentMethodDTO implements DTO<PaymentMethod>{
     private Integer id;
-    private Integer appointmentId;
-    private Integer paymentTypeId;
+    private SchedulingDTO scheduling;
+    private PaymentTypeDTO type;
 
-    public Integer getPaymentTypeId() {
-        return paymentTypeId;
+    public SchedulingDTO getScheduling() {
+        return scheduling;
     }
 
-    public PaymentMethodDTO setPaymentTypeId(Integer paymentTypeId) {
-        this.paymentTypeId = paymentTypeId;
+    public PaymentMethodDTO setScheduling(SchedulingDTO scheduling) {
+        this.scheduling = scheduling;
         return this;
     }
 
-    public Integer getAppointmentId() {
-        return appointmentId;
+    public PaymentTypeDTO getType() {
+        return type;
     }
 
-    public PaymentMethodDTO setAppointmentId(Integer appointmentId) {
-        this.appointmentId = appointmentId;
+    public PaymentMethodDTO setType(PaymentTypeDTO type) {
+        this.type = type;
         return this;
     }
 
@@ -41,10 +36,13 @@ public class PaymentMethodDTO implements DTO<PaymentMethod>{
         return this;
     }
 
+    public PaymentMethodDTO() {
+    }
+
     public PaymentMethodDTO(PaymentMethod paymentMethod) {
         this.id = paymentMethod.getId();
-        this.appointmentId = paymentMethod.getAppointment().getId();
-        this.paymentTypeId = paymentMethod.getType().getId();
+        this.scheduling = new SchedulingDTO(paymentMethod.getScheduling());
+        this.type = new PaymentTypeDTO(paymentMethod.getType());
     }
 
     @Override
@@ -53,21 +51,10 @@ public class PaymentMethodDTO implements DTO<PaymentMethod>{
 
         method.setId(id != null && id > 0 ? id : null);
 
-        try {
-            Appointment appointment = AppointmentController.INSTANCE.getById(appointmentId).build();
-            method.setAppointment(appointment);
-        } catch (NoResultException e) {
-            throw new InvalidValueException("Consulta Inválida", e);
-        }
+        method.setType(type.build());
+        method.setScheduling(scheduling.build());
 
-        try {
-            PaymentType paymentType = PaymentTypeController.INSTANCE.getById(paymentTypeId).build();
-            method.setType(paymentType);
-        } catch (NoResultException e) {
-            throw new InvalidValueException("Tipo de Pagamento Inválido", e);
-        }
-
-        return null;
+        return method;
     }
 
 }

@@ -5,7 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Map;
 
 public interface IDisplayable {
-    void setupTableColumns(DefaultTableModel tableModel);
+    void setupTableColumns(DefaultTableModel tableModel, JTable table);
 
     void get(DefaultTableModel tableModel, JTable table, boolean isAscending, String filterKey, String searchString);
 

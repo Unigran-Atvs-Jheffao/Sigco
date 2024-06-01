@@ -2,10 +2,12 @@ package com.hakimen.controllers.auxiliar;
 
 import com.hakimen.controllers.Controller;
 import com.hakimen.controllers.dto.auxiliar.CityDTO;
+import com.hakimen.controllers.dto.auxiliar.StateDTO;
 import com.hakimen.exceptions.InvalidValueException;
 import com.hakimen.persistance.dao.auxiliar.city.CityDAO;
 import com.hakimen.persistance.dao.auxiliar.city.CityDAOImpl;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class CityController implements Controller<CityDTO> {
@@ -44,5 +46,13 @@ public class CityController implements Controller<CityDTO> {
     @Override
     public CityDTO getById(int id) throws InvalidValueException {
         return new CityDTO(CITY_DAO.getById(id));
+    }
+
+    public CityDTO getByName(String name, String state) throws InvalidValueException {
+        try{
+            return new CityDTO(CITY_DAO.getByNameAndState(name, state));
+        } catch (NoResultException e){
+            throw new InvalidValueException("Cidade não encontrada", e);
+        }
     }
 }

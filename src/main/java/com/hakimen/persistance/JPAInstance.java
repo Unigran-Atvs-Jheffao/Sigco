@@ -22,22 +22,23 @@ public class JPAInstance {
     }
 
     public <T> void save(T obj){
-        transaction.begin();
+        manager.getTransaction().begin();
         manager.persist(obj);
-        transaction.commit();
+        manager.getTransaction().commit();
     }
 
 
     public <T> void remove(T obj){
-        transaction.begin();
-        manager.remove(obj);
-        transaction.commit();
+        manager.getTransaction().begin();
+        Object managed = manager.merge(obj);
+        manager.remove(managed);
+        manager.getTransaction().commit();
     }
 
 
     public <T> void update(T obj){
-        transaction.begin();
+        manager.getTransaction().begin();
         manager.merge(obj);
-        transaction.commit();
+        manager.getTransaction().commit();
     }
 }

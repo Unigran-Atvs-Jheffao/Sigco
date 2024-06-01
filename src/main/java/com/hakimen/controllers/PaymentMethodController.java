@@ -18,7 +18,6 @@ public class PaymentMethodController implements Controller<PaymentMethodDTO> {
 
     };
 
-
     private PaymentMethodDAO PAYMENT_METHOD_DAO = new PaymentMethodDAOImpl();
     public PaymentMethodDAO getDAO(){
         return PAYMENT_METHOD_DAO;
@@ -47,5 +46,13 @@ public class PaymentMethodController implements Controller<PaymentMethodDTO> {
     @Override
     public PaymentMethodDTO getById(int id) throws InvalidValueException {
         return new PaymentMethodDTO(PAYMENT_METHOD_DAO.getById(id));
+    }
+
+    public List<PaymentMethodDTO> findAllFiltered(boolean asc, String key, String search) {
+        return PAYMENT_METHOD_DAO.findAllFiltered(asc,key,search).stream().map(PaymentMethodDTO::new).toList();
+    }
+
+    public PaymentMethodDTO findByScheduleId(int scheduleId) throws InvalidValueException {
+        return new PaymentMethodDTO(PAYMENT_METHOD_DAO.findByScheduleId(scheduleId));
     }
 }

@@ -1,17 +1,13 @@
 package com.hakimen.controllers.dto;
 
-import com.hakimen.controllers.LoginController;
 import com.hakimen.exceptions.InvalidValueException;
 import com.hakimen.model.Employee;
-import com.hakimen.model.Login;
-
-import javax.persistence.NoResultException;
 
 public class EmployeeDTO implements DTO<Employee>{
     private Integer id;
 
     private String registration;
-    private Integer loginId;
+    private LoginDTO login;
 
     public EmployeeDTO(){
 
@@ -20,7 +16,7 @@ public class EmployeeDTO implements DTO<Employee>{
     public EmployeeDTO(Employee employee) {
         id = employee.getId();
         registration = employee.getRegistration();
-        loginId = employee.getLogin().getId();
+        login = new LoginDTO(employee.getLogin());
     }
 
     public Integer getId() {
@@ -41,12 +37,12 @@ public class EmployeeDTO implements DTO<Employee>{
         return this;
     }
 
-    public Integer getLoginId() {
-        return loginId;
+    public LoginDTO getLogin() {
+        return login;
     }
 
-    public EmployeeDTO setLoginId(Integer loginId) {
-        this.loginId = loginId;
+    public EmployeeDTO setLogin(LoginDTO login) {
+        this.login = login;
         return this;
     }
 
@@ -60,12 +56,7 @@ public class EmployeeDTO implements DTO<Employee>{
         if(registration == null || registration.isBlank()) throw new InvalidValueException("Registro Inválido");
         employee.setRegistration(registration);
 
-        try {
-            Login login = LoginController.INSTANCE.getById(loginId).build();
-            employee.setLogin(login);
-        } catch (NoResultException e){
-            throw new InvalidValueException("Login Inválido", e);
-        }
+        employee.setLogin(login.build());
 
         return employee;
     }

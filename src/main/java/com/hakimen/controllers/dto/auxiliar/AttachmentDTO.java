@@ -29,6 +29,8 @@ public class AttachmentDTO implements DTO<Attachment> {
         return this;
     }
 
+
+
     public AttachmentDTO(Attachment attachment) {
         this.id = attachment.getId();
         this.attachment = attachment.getAttachment();
@@ -40,7 +42,7 @@ public class AttachmentDTO implements DTO<Attachment> {
 
         attachment.setId(id != null && id > 0 ? id : null);
 
-        if(this.attachment == null) throw new InvalidValueException("Anexo inv·lido");
+        if(this.attachment == null) throw new InvalidValueException("Anexo inv√°lido");
         attachment.setAttachment(this.attachment);
 
         return attachment;

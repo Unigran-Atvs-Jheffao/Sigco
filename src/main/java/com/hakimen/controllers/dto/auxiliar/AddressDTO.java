@@ -15,15 +15,42 @@ import java.util.Objects;
 public class AddressDTO implements DTO<Address> {
     private Integer id;
     private String street;
-    private Integer cityId;
+    private CityDTO city;
 
     public AddressDTO(Address address) {
         this.id = address.getId();
         this.street = address.getStreet();
-        this.cityId = address.getCity().getId();
+        this.city = new CityDTO(address.getCity());
     }
 
     public AddressDTO() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public AddressDTO setId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public AddressDTO setStreet(String street) {
+        this.street = street;
+        return this;
+    }
+
+    public CityDTO getCity() {
+        return city;
+    }
+
+    public AddressDTO setCity(CityDTO city) {
+        this.city = city;
+        return this;
     }
 
     @Override
@@ -32,15 +59,10 @@ public class AddressDTO implements DTO<Address> {
 
         address.setId(id != null && id > 0 ? id : null);
 
-        if(street == null || street.isBlank()) throw new InvalidValueException("Rua Inv·lida");
+        if(street == null || street.isBlank()) throw new InvalidValueException("Rua Inv√°lida");
         address.setStreet(street);
 
-        try{
-            City city = CityController.INSTANCE.getById(cityId).build();
-            address.setCity(city);
-        } catch (NoResultException e){
-            throw new InvalidValueException("Cidade Inv·lida", e);
-        }
+        address.setCity(city.build());
 
         return address;
     }

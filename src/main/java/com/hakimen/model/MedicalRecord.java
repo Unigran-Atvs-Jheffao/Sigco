@@ -6,15 +6,10 @@ import java.util.List;
 @Entity
 public class MedicalRecord {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Integer id;
 
-    @OneToOne
-    @JoinColumn(name = "pacient_id")
-    private Pacient pacient;
-
-
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "appointment_id")
     List<Appointment> history;
 
@@ -24,15 +19,6 @@ public class MedicalRecord {
 
     public MedicalRecord setId(Integer id) {
         this.id = id;
-        return this;
-    }
-
-    public Pacient getPacient() {
-        return pacient;
-    }
-
-    public MedicalRecord setPacient(Pacient pacient) {
-        this.pacient = pacient;
         return this;
     }
 

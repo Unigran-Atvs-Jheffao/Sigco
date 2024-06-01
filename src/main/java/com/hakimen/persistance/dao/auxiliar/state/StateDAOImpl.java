@@ -20,4 +20,11 @@ public class StateDAOImpl implements StateDAO{
         TypedQuery<State> query = JPAInstance.INSTANCE.getManager().createQuery("select a from State a", State.class);
         return query.getResultList();
     }
+
+    @Override
+    public State getStateByName(String name) {
+        TypedQuery<State> query = JPAInstance.INSTANCE.getManager().createQuery("select a from State a where a.name = :name", State.class);
+        query.setParameter("name", name);
+        return query.getSingleResult();
+    }
 }

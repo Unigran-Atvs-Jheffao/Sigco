@@ -12,7 +12,7 @@ public class LoginDTO implements DTO<Login> {
 
     private String username;
     private String password;
-    private Integer roleId;
+    private RoleDTO role;
 
     public Integer getId() {
         return id;
@@ -41,12 +41,12 @@ public class LoginDTO implements DTO<Login> {
         return this;
     }
 
-    public Integer getRoleId() {
-        return roleId;
+    public RoleDTO getRole() {
+        return role;
     }
 
-    public LoginDTO setRoleId(Integer roleId) {
-        this.roleId = roleId;
+    public LoginDTO setRole(RoleDTO role) {
+        this.role = role;
         return this;
     }
 
@@ -54,7 +54,7 @@ public class LoginDTO implements DTO<Login> {
         id = login.getId();
         username = login.getUsername();
         password = login.getPassword();
-        roleId = login.getRole().getId();
+        role = new RoleDTO(login.getRole());
     }
 
     public LoginDTO(){
@@ -70,15 +70,10 @@ public class LoginDTO implements DTO<Login> {
         if(username == null || username.isBlank()) throw new InvalidValueException("Nome de usuário inválido");
         login.setUsername(username);
 
-        if(password == null || password.isBlank() || password.length() < 3 || password.length() > 32) throw new InvalidValueException("Senha inválida");
+        if(password == null || password.isBlank()) throw new InvalidValueException("Senha inválida");
         login.setPassword(password);
 
-        try {
-            Role role = RoleController.INSTANCE.getById(roleId).build();
-            login.setRole(role);
-        } catch (NoResultException e){
-            throw new InvalidValueException("Cargo Inválido", e);
-        }
+        login.setRole(role.build());
 
         return login;
     }

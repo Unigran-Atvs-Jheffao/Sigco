@@ -6,6 +6,7 @@ import com.hakimen.exceptions.InvalidValueException;
 import com.hakimen.persistance.dao.auxiliar.state.StateDAO;
 import com.hakimen.persistance.dao.auxiliar.state.StateDAOImpl;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class StateController implements Controller<StateDTO> {
@@ -44,5 +45,13 @@ public class StateController implements Controller<StateDTO> {
     @Override
     public StateDTO getById(int id) throws InvalidValueException {
         return new StateDTO(STATE_DAO.getById(id));
+    }
+
+    public StateDTO getByName(String name) throws InvalidValueException {
+        try{
+            return new StateDTO(STATE_DAO.getStateByName(name));
+        } catch (NoResultException e){
+            throw new InvalidValueException("Estado não encontrado", e);
+        }
     }
 }

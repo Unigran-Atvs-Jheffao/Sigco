@@ -14,12 +14,12 @@ import java.util.Objects;
 public class CityDTO implements DTO<City> {
     private Integer id;
     private String name;
-    private Integer stateId;
+    private StateDTO state;
 
     public CityDTO(City city) {
         this.id = city.getId();
         this.name = city.getName();
-        this.stateId = city.getState().getId();
+        this.state = new StateDTO(city.getState());
     }
 
     public CityDTO() {
@@ -43,12 +43,12 @@ public class CityDTO implements DTO<City> {
         return this;
     }
 
-    public Integer getStateId() {
-        return stateId;
+    public StateDTO getState() {
+        return state;
     }
 
-    public CityDTO setStateId(Integer stateId) {
-        this.stateId = stateId;
+    public CityDTO setState(StateDTO state) {
+        this.state = state;
         return this;
     }
 
@@ -58,15 +58,11 @@ public class CityDTO implements DTO<City> {
 
         city.setId(id != null && id > 0 ? id : null);
 
-        if(name == null || name.isBlank()) throw new InvalidValueException("Nome Inv·lido");
+        if(name == null || name.isBlank()) throw new InvalidValueException("Nome Inv√°lido");
         city.setName(name);
 
-        try {
-            State state = StateController.INSTANCE.getById(stateId).build();
-            city.setState(state);
-        } catch (NoResultException e){
-            throw new InvalidValueException("Estado Inv·lido");
-        }
+        city.setState(state.build());
+
 
         return city;
     }

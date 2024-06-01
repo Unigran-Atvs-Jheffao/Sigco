@@ -1,5 +1,7 @@
 package com.hakimen.view;
 
+import com.hakimen.utils.AppContext;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -35,6 +37,8 @@ public class GenericListView extends JFrame implements View {
         addComponents();
         attachActions();
 
+        setJMenuBar(AppContext.getBar(this));
+
         setVisible(true);
     }
 
@@ -62,7 +66,7 @@ public class GenericListView extends JFrame implements View {
 
         JPanel buttons = new JPanel();
         buttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        buttons.setBorder(new EmptyBorder(5,5,5,5));
+        buttons.setBorder(new EmptyBorder(5, 5, 5, 5));
         buttons.add(register);
         buttons.add(edit);
         buttons.add(delete);
@@ -80,14 +84,14 @@ public class GenericListView extends JFrame implements View {
         orderedBy.setPreferredSize(orderedBy.getMinimumSize());
         orderedBy.setMaximumSize(orderedBy.getMinimumSize());
 
-        displayable.setupTableColumns(model);
+        displayable.setupTableColumns(model, table);
         search = new JTextField(24);
         search.setMaximumSize(search.getPreferredSize());
         searchButton = new JButton("Buscar");
 
         JPanel filters = new JPanel();
         filters.setLayout(new BoxLayout(filters, BoxLayout.X_AXIS));
-        filters.setBorder(new EmptyBorder(5,5,5,5));
+        filters.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         filters.add(search);
         filters.add(searchButton);
@@ -110,12 +114,14 @@ public class GenericListView extends JFrame implements View {
         edit.addActionListener(e -> {
             if (table.getSelectedRow() != -1) {
                 displayable.edit(model, table, table.getSelectedRow());
+                onFilterChange.actionPerformed(e);
             }
         });
 
         delete.addActionListener(e -> {
             if (table.getSelectedRow() != -1) {
                 displayable.remove(model, table, table.getSelectedRow());
+                onFilterChange.actionPerformed(e);
             }
         });
 

@@ -1,9 +1,11 @@
 package com.hakimen.persistance.dao.main.scheduling;
 
+import com.hakimen.model.Material;
 import com.hakimen.model.Scheduling;
 import com.hakimen.persistance.JPAInstance;
 
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -20,4 +22,19 @@ public class SchedulingDAOImpl implements SchedulingDAO {
         TypedQuery<Scheduling> query = JPAInstance.INSTANCE.getManager().createQuery("select scheduling from Scheduling scheduling", Scheduling.class);
         return query.getResultList();
     }
+
+    @Override
+    public List<Scheduling> findAllFiltered(boolean ascendent, String key, String searchQuery) {
+        String builtQuery = "select scheduling from Scheduling scheduling where scheduling.pacient.name like :search";
+
+        builtQuery += " order by scheduling." + key;
+        builtQuery += ascendent ? " asc" : " desc";
+
+
+        TypedQuery<Scheduling> query = JPAInstance.INSTANCE.getManager().createQuery(builtQuery, Scheduling.class);
+
+        query.setParameter("search", "%" + searchQuery + "%");
+        return query.getResultList();
+    }
+
 }

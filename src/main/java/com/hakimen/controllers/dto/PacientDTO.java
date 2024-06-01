@@ -3,6 +3,8 @@ package com.hakimen.controllers.dto;
 import com.hakimen.controllers.auxiliar.AddressController;
 import com.hakimen.controllers.auxiliar.ContactController;
 import com.hakimen.controllers.MedicalRecordController;
+import com.hakimen.controllers.dto.auxiliar.AddressDTO;
+import com.hakimen.controllers.dto.auxiliar.ContactDTO;
 import com.hakimen.exceptions.InvalidValueException;
 import com.hakimen.model.MedicalRecord;
 import com.hakimen.model.Pacient;
@@ -21,9 +23,9 @@ public class PacientDTO implements DTO<Pacient> {
     private String homeNumber;
     private String responsible;
 
-    private Integer medicalRecordId;
-    private Integer contactId;
-    private Integer addressId;
+    private MedicalRecordDTO medicalRecord;
+    private ContactDTO contact;
+    private AddressDTO address;
 
     public Integer getId() {
         return id;
@@ -79,30 +81,30 @@ public class PacientDTO implements DTO<Pacient> {
         return this;
     }
 
-    public Integer getMedicalRecordId() {
-        return medicalRecordId;
+    public MedicalRecordDTO getMedicalRecord() {
+        return medicalRecord;
     }
 
-    public PacientDTO setMedicalRecordId(Integer medicalRecordId) {
-        this.medicalRecordId = medicalRecordId;
+    public PacientDTO setMedicalRecord(MedicalRecordDTO medicalRecord) {
+        this.medicalRecord = medicalRecord;
         return this;
     }
 
-    public Integer getContactId() {
-        return contactId;
+    public ContactDTO getContact() {
+        return contact;
     }
 
-    public PacientDTO setContactId(Integer contactId) {
-        this.contactId = contactId;
+    public PacientDTO setContact(ContactDTO contact) {
+        this.contact = contact;
         return this;
     }
 
-    public Integer getAddressId() {
-        return addressId;
+    public AddressDTO getAddress() {
+        return address;
     }
 
-    public PacientDTO setAddressId(Integer addressId) {
-        this.addressId = addressId;
+    public PacientDTO setAddress(AddressDTO address) {
+        this.address = address;
         return this;
     }
 
@@ -114,9 +116,9 @@ public class PacientDTO implements DTO<Pacient> {
         homeNumber = pacient.getHomeNumber();
         responsible = pacient.getResponsible();
 
-        medicalRecordId = pacient.getMedicalRecord().getId();
-        contactId = pacient.getContact().getId();
-        addressId = pacient.getAddress().getId();
+        medicalRecord = new MedicalRecordDTO(pacient.getMedicalRecord());
+        contact = new ContactDTO(pacient.getContact());
+        address = new AddressDTO(pacient.getAddress());
     }
 
     public PacientDTO() {
@@ -142,30 +144,13 @@ public class PacientDTO implements DTO<Pacient> {
             pacient.setResponsible(responsible);
         }
 
-        if(homeNumber != null) throw new InvalidValueException("Numero da Casa Inválido");
+        if(homeNumber == null) throw new InvalidValueException("Numero da Casa Inválido");
         pacient.setHomeNumber(homeNumber);
 
 
-        try{
-            MedicalRecord record = MedicalRecordController.INSTANCE.getById(medicalRecordId).build();
-            pacient.setMedicalRecord(record);
-        } catch (NoResultException e) {
-            throw new InvalidValueException("Prontuário Inválido", e);
-        }
-
-        try{
-            Contact contact = ContactController.INSTANCE.getById(contactId).build();
-            pacient.setContact(contact);
-        } catch (NoResultException e) {
-            throw new InvalidValueException("Contato Inválido", e);
-        }
-
-        try{
-            Address address = AddressController.INSTANCE.getById(addressId).build();
-            pacient.setAddress(address);
-        } catch (NoResultException e) {
-            throw new InvalidValueException("Endereço Inválido", e);
-        }
+        pacient.setMedicalRecord(medicalRecord.build());
+        pacient.setContact(contact.build());
+        pacient.setAddress(address.build());
 
         return pacient;
     }

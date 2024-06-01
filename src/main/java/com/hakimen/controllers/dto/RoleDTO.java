@@ -43,6 +43,9 @@ public class RoleDTO implements DTO<Role> {
         this.description = role.getDescription();
     }
 
+    public RoleDTO() {
+    }
+
     @Override
     public Role build() throws InvalidValueException {
         Role role = new Role();

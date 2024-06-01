@@ -42,7 +42,7 @@ public class StateDTO implements DTO<State> {
 
         state.setId(id != null && id > 0 ? id : null);
 
-        if(name == null || name.isBlank()) throw new InvalidValueException("Nome Inv·lido");
+        if(name == null || name.isBlank()) throw new InvalidValueException("Nome Inv√°lido");
         state.setName(name);
 
         return state;

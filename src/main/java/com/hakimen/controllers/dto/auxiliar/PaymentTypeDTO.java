@@ -42,7 +42,7 @@ public class PaymentTypeDTO implements DTO<PaymentType> {
 
         paymentType.setId(id != null && id > 0 ? id : null);
 
-        if(name == null || name.isBlank()) throw new InvalidValueException("Nome Inv·lido");
+        if(name == null || name.isBlank()) throw new InvalidValueException("Nome Inv√°lido");
         paymentType.setName(name);
 
 

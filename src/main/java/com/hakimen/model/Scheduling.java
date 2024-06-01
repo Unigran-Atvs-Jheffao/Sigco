@@ -25,7 +25,7 @@ public class Scheduling {
     @JoinColumn(name = "receptionist_id")
     private Employee receptionist;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "appointment_id")
     private Appointment appointment;
 

@@ -16,7 +16,6 @@ public class ContactDTO implements DTO<Contact> {
     }
 
     public ContactDTO(Contact contact) {
-        this.id = contact.getId();
         this.value = contact.getValue();
         this.type = contact.getType();
     }
@@ -50,6 +49,13 @@ public class ContactDTO implements DTO<Contact> {
 
     @Override
     public Contact build() throws InvalidValueException {
-        return null;
+        Contact contact = new Contact();
+
+        contact.setId(id != null && id > 0 ? id : null);
+
+        contact.setValue(value);
+        contact.setType(type);
+
+        return contact;
     }
 }

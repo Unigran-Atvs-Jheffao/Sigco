@@ -1,73 +1,74 @@
 package com.hakimen;
 
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.hakimen.view.GenericListView;
-import com.hakimen.view.GenericRegisterView;
-import com.hakimen.view.IDisplayable;
-import com.hakimen.view.components.AddMaterialPanel;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.util.Map;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.hakimen.controllers.RoleController;
+import com.hakimen.controllers.auxiliar.PaymentTypeController;
+import com.hakimen.controllers.dto.RoleDTO;
+import com.hakimen.controllers.dto.auxiliar.PaymentTypeDTO;
+import com.hakimen.exceptions.InvalidValueException;
+import com.hakimen.view.GenericListView;
+import com.hakimen.view.LoginView;
+
 
 public class Main {
 
     public static void main(String[] args) {
         FlatMacDarkLaf.setup();
 
-        new GenericListView("Materials List", new IDisplayable() {
-            @Override
-            public void setupTableColumns(DefaultTableModel tableModel) {
-                tableModel.addColumn("Id");
-                tableModel.addColumn("Id1");
-                tableModel.addColumn("Id2");
-                tableModel.addColumn("Id3");
-                tableModel.addColumn("Id4");
-                tableModel.addColumn("Id5");
-            }
+        new LoginView();
+    }
 
-            @Override
-            public void register() {
-                new GenericRegisterView("Cadastrar Material", new AddMaterialPanel());
-            }
+    public static void populateRoles(){
+        try {
+            RoleController.INSTANCE.insert(
+                    new RoleDTO()
+                            .setName("Administrador")
+                            .setDescription("Administrador")
+            );
 
-            @Override
-            public void get(DefaultTableModel tableModel, JTable table, boolean ascending, String filterKey, String searchString) {
+            RoleController.INSTANCE.insert(
+                    new RoleDTO()
+                            .setName("Dentista")
+                            .setDescription("Dentista")
+            );
 
-                tableModel.setRowCount(0);
+            RoleController.INSTANCE.insert(
+                    new RoleDTO()
+                            .setName("Gerente")
+                            .setDescription("Gerente")
+            );
 
-                System.out.println(ascending);
+            RoleController.INSTANCE.insert(
+                    new RoleDTO()
+                            .setName("Recepcionista")
+                            .setDescription("Recepcionista")
+            );
+        } catch (InvalidValueException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-                tableModel.addRow(new Object[]{"1", "2", "3", "4", "5", "6"});
-                tableModel.addRow(new Object[]{"1", "2", "3", "4", "5", "6"});
-                tableModel.addRow(new Object[]{"1", "2", "3", "4", "5", "6"});
-                tableModel.addRow(new Object[]{"1", "2", "3", "4", "5", "6"});
-                tableModel.addRow(new Object[]{"1", "2", "3", "4", "5", "6"});
-                tableModel.addRow(new Object[]{"1", "2", "3", "4", "5", "6"});
-                tableModel.addRow(new Object[]{"1", "2", "3", "4", "5", "6"});
-            }
-
-            @Override
-            public void edit(DefaultTableModel tableModel, JTable table, int row) {
-                System.out.println(row);
-            }
-
-            @Override
-            public void remove(DefaultTableModel tableModel, JTable table, int row) {
-
-            }
-
-            @Override
-            public Map<String, String> getFilter() {
-                return Map.ofEntries(
-                        Map.entry("Id", ""),
-                        Map.entry("Id1", ""),
-                        Map.entry("Id2", ""),
-                        Map.entry("Id3", ""),
-                        Map.entry("Id4", ""),
-                        Map.entry("Id5", "")
-                );
-            }
-        });
+    public static void populatePaymentTypes(){
+        try {
+            PaymentTypeController.INSTANCE.insert(
+                    new PaymentTypeDTO()
+                            .setName("Pix")
+            );
+            PaymentTypeController.INSTANCE.insert(
+                    new PaymentTypeDTO()
+                            .setName("Credito")
+            );
+            PaymentTypeController.INSTANCE.insert(
+                    new PaymentTypeDTO()
+                            .setName("Debito")
+            );
+            PaymentTypeController.INSTANCE.insert(
+                    new PaymentTypeDTO()
+                            .setName("Dinheiro")
+            );
+        } catch (InvalidValueException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

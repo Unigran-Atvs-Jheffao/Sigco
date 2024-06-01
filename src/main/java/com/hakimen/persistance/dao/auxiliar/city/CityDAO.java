@@ -4,4 +4,5 @@ import com.hakimen.model.auxiliar.City;
 import com.hakimen.persistance.dao.DAO;
 
 public interface CityDAO extends DAO<Integer, City> {
+    City getByNameAndState(String name,String state);
 }

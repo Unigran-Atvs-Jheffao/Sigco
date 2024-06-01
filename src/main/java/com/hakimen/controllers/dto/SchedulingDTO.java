@@ -16,10 +16,13 @@ public class SchedulingDTO implements DTO<Scheduling>{
     private Integer id;
     private Date date;
     private String appointmentTime;
-    private Integer pacient;
-    private Integer dentist;
-    private Integer receptionist;
-    private Integer appointment;
+    private PacientDTO pacient;
+    private EmployeeDTO receptionist;
+    private AppointmentDTO appointment;
+
+    public SchedulingDTO() {
+
+    }
 
     public Integer getId() {
         return id;
@@ -48,38 +51,29 @@ public class SchedulingDTO implements DTO<Scheduling>{
         return this;
     }
 
-    public Integer getPacient() {
+    public PacientDTO getPacient() {
         return pacient;
     }
 
-    public SchedulingDTO setPacient(Integer pacient) {
+    public SchedulingDTO setPacient(PacientDTO pacient) {
         this.pacient = pacient;
         return this;
     }
 
-    public Integer getDentist() {
-        return dentist;
-    }
-
-    public SchedulingDTO setDentist(Integer dentist) {
-        this.dentist = dentist;
-        return this;
-    }
-
-    public Integer getReceptionist() {
+    public EmployeeDTO getReceptionist() {
         return receptionist;
     }
 
-    public SchedulingDTO setReceptionist(Integer receptionist) {
+    public SchedulingDTO setReceptionist(EmployeeDTO receptionist) {
         this.receptionist = receptionist;
         return this;
     }
 
-    public Integer getAppointment() {
+    public AppointmentDTO getAppointment() {
         return appointment;
     }
 
-    public SchedulingDTO setAppointment(Integer appointment) {
+    public SchedulingDTO setAppointment(AppointmentDTO appointment) {
         this.appointment = appointment;
         return this;
     }
@@ -89,10 +83,9 @@ public class SchedulingDTO implements DTO<Scheduling>{
         this.date = scheduling.getDate();
         this.appointmentTime = scheduling.getAppointmentTime();
 
-        this.pacient = scheduling.getPacient().getId();
-        this.dentist = scheduling.getDentist().getId();
-        this.receptionist = scheduling.getReceptionist().getId();
-        this.appointment = scheduling.getAppointment().getId();
+        this.pacient = new PacientDTO(scheduling.getPacient());
+        this.receptionist = new EmployeeDTO(scheduling.getReceptionist());
+        this.appointment = new AppointmentDTO(scheduling.getAppointment());
     }
 
     @Override
@@ -101,53 +94,23 @@ public class SchedulingDTO implements DTO<Scheduling>{
 
         scheduling.setId(id != null && id > 0 ? id : null);
 
-        if (date == null) throw new InvalidValueException("Data Inv·lida");
+        if (date == null) throw new InvalidValueException("Data Inv√°lido");
         scheduling.setDate(date);
 
-        if(appointmentTime == null || appointmentTime.isBlank()) throw new InvalidValueException("Hor·rio Inv·lido");
+        if(appointmentTime == null || appointmentTime.isBlank()) throw new InvalidValueException("Hor√°rio Inv√°lido");
 
         int hours = Integer.parseInt(appointmentTime.substring(0,2));
         int minutes = Integer.parseInt(appointmentTime.substring(3,5));
 
         if(hours < 0 || hours > 23 || minutes < 0 || minutes > 59) {
-            throw new InvalidValueException("Hor·rio Inv·lido");
+            throw new InvalidValueException("Hor√°rio Inv√°lido");
         }
 
         scheduling.setAppointmentTime(appointmentTime);
 
-        try {
-            Employee dentist = EmployeeController.INSTANCE.getById(this.dentist).build();
-            if (dentist.getLogin().getRole().getId() == 2)
-                scheduling.setDentist(dentist);
-            else
-                throw new InvalidValueException("O funcion·rio n„o È um dentista");
-        } catch (NoResultException e) {
-            throw new InvalidValueException("Id de funcion·rio inv·lido", e);
-        }
-
-        try {
-            Employee receptionist = EmployeeController.INSTANCE.getById(this.dentist).build();
-            if (receptionist.getLogin().getRole().getId() == 3)
-                scheduling.setReceptionist(receptionist);
-            else
-                throw new InvalidValueException("O funcion·rio n„o È um recepcionista");
-        } catch (NoResultException e) {
-            throw new InvalidValueException("Id de funcion·rio inv·lido", e);
-        }
-
-        try {
-            Appointment appointment = AppointmentController.INSTANCE.getById(this.appointment).build();
-            scheduling.setAppointment(appointment);
-        } catch (NoResultException e) {
-            throw new InvalidValueException("Consulta Inv·lida", e);
-        }
-
-        try{
-            Pacient pacient = PacientController.INSTANCE.getById(this.pacient).build();
-            scheduling.setPacient(pacient);
-        } catch (NoResultException e){
-            throw new InvalidValueException("Paciente Inv·lido", e);
-        }
+        scheduling.setReceptionist(receptionist.build());
+        scheduling.setPacient(pacient.build());
+        scheduling.setAppointment(appointment.build());
 
         return scheduling;
     }

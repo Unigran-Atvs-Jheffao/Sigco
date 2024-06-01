@@ -3,11 +3,13 @@ package com.hakimen.controllers;
 import com.hakimen.controllers.dto.MedicalRecordDTO;
 import com.hakimen.controllers.dto.SchedulingDTO;
 import com.hakimen.exceptions.InvalidValueException;
+import com.hakimen.model.Scheduling;
 import com.hakimen.persistance.dao.main.medicalRecord.MedicalRecordDAO;
 import com.hakimen.persistance.dao.main.medicalRecord.MedicalRecordDAOImpl;
 import com.hakimen.persistance.dao.main.scheduling.SchedulingDAO;
 import com.hakimen.persistance.dao.main.scheduling.SchedulingDAOImpl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SchedulingController implements Controller<SchedulingDTO>{
@@ -46,5 +48,9 @@ public class SchedulingController implements Controller<SchedulingDTO>{
     @Override
     public SchedulingDTO getById(int id) throws InvalidValueException {
         return new SchedulingDTO(SCHEDULING_DAO.getById(id));
+    }
+
+    public List<SchedulingDTO> findAllFiltered(boolean asc, String key, String query){
+        return SCHEDULING_DAO.findAllFiltered(asc,key,query).stream().map(SchedulingDTO::new).toList();
     }
 }

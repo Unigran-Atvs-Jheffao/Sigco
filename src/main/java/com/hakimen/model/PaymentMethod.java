@@ -10,13 +10,14 @@ public class PaymentMethod {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @ManyToOne
     @JoinColumn(name = "type_id")
     private PaymentType type;
 
-    @OneToOne
-    @JoinColumn(name = "appointment_id")
-    private Appointment appointment;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "scheduling_id")
+    private Scheduling scheduling;
 
 
     public Integer getId() {
@@ -38,12 +39,12 @@ public class PaymentMethod {
         return this;
     }
 
-    public Appointment getAppointment() {
-        return appointment;
+    public Scheduling getScheduling() {
+        return scheduling;
     }
 
-    public PaymentMethod setAppointment(Appointment appointment) {
-        this.appointment = appointment;
+    public PaymentMethod setScheduling(Scheduling scheduling) {
+        this.scheduling = scheduling;
         return this;
     }
 }

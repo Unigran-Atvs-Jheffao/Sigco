@@ -14,7 +14,7 @@ public class MaterialDTO implements DTO<Material> {
     private Integer quantity;
     private Integer minQuantity;
 
-    private Integer employeeId;
+    private EmployeeDTO employee;
 
     public Integer getId() {
         return id;
@@ -52,12 +52,12 @@ public class MaterialDTO implements DTO<Material> {
         return this;
     }
 
-    public Integer getEmployeeId() {
-        return employeeId;
+    public EmployeeDTO getEmployee() {
+        return employee;
     }
 
-    public MaterialDTO setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
+    public MaterialDTO setEmployee(EmployeeDTO employee) {
+        this.employee = employee;
         return this;
     }
 
@@ -66,7 +66,7 @@ public class MaterialDTO implements DTO<Material> {
         name = material.getName();
         quantity = material.getQuantity();
         minQuantity = material.getMinQuantity();
-        employeeId = material.getEmployee().getId();
+        employee = new EmployeeDTO(material.getEmployee());
     }
 
     public MaterialDTO() {
@@ -87,12 +87,7 @@ public class MaterialDTO implements DTO<Material> {
         if(quantity <= minQuantity) throw new InvalidValueException("Quantidade Inválida");
         material.setQuantity(quantity);
 
-        try{
-            Employee employee = EmployeeController.INSTANCE.getById(employeeId).build();
-            material.setEmployee(employee);
-        } catch (NoResultException e) {
-            throw new InvalidValueException("Funcionario Inválido", e);
-        }
+        material.setEmployee(employee.build());
 
         return material;
     }

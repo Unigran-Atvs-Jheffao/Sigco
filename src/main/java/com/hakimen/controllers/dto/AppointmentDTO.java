@@ -2,6 +2,7 @@ package com.hakimen.controllers.dto;
 
 import com.hakimen.controllers.auxiliar.AttachmentController;
 import com.hakimen.controllers.EmployeeController;
+import com.hakimen.controllers.dto.auxiliar.AttachmentDTO;
 import com.hakimen.exceptions.InvalidValueException;
 import com.hakimen.model.Appointment;
 import com.hakimen.model.Employee;
@@ -14,9 +15,9 @@ import java.util.List;
 public class AppointmentDTO implements DTO<Appointment> {
 
     private Integer id;
-    private Integer withDentistId;
+    private EmployeeDTO withDentist;
     private String observations;
-    private List<Integer> attachments;
+    private List<AttachmentDTO> attachments;
     private Float value;
 
     public AppointmentDTO(){
@@ -32,12 +33,12 @@ public class AppointmentDTO implements DTO<Appointment> {
         return this;
     }
 
-    public Integer getWithDentistId() {
-        return withDentistId;
+    public EmployeeDTO getWithDentist() {
+        return withDentist;
     }
 
-    public AppointmentDTO setWithDentistId(Integer withDentistId) {
-        this.withDentistId = withDentistId;
+    public AppointmentDTO setWithDentist(EmployeeDTO withDentist) {
+        this.withDentist = withDentist;
         return this;
     }
 
@@ -50,11 +51,11 @@ public class AppointmentDTO implements DTO<Appointment> {
         return this;
     }
 
-    public List<Integer> getAttachments() {
+    public List<AttachmentDTO> getAttachments() {
         return attachments;
     }
 
-    public AppointmentDTO setAttachments(List<Integer> attachments) {
+    public AppointmentDTO setAttachments(List<AttachmentDTO> attachments) {
         this.attachments = attachments;
         return this;
     }
@@ -62,8 +63,8 @@ public class AppointmentDTO implements DTO<Appointment> {
     public AppointmentDTO(Appointment appointment) {
         this.id = appointment.getId();
         this.value = appointment.getValue();
-        this.attachments = appointment.getAttachments().stream().map(Attachment::getId).toList();
-        this.withDentistId = appointment.getWithDentist().getId();
+        this.attachments = appointment.getAttachments().stream().map(AttachmentDTO::new).toList();
+        this.withDentist = new EmployeeDTO(appointment.getWithDentist());
         this.observations = appointment.getObservations();
     }
 
@@ -82,28 +83,14 @@ public class AppointmentDTO implements DTO<Appointment> {
 
         appointment.setId(id != null && id > 0 ? id : null);
 
-        try {
-            Employee dentist = EmployeeController.INSTANCE.getById(withDentistId).build();
-            if (dentist.getLogin().getRole().getId() == 2)
-                appointment.setWithDentist(dentist);
-            else
-                throw new InvalidValueException("O funcionário não é um dentista");
-        } catch (NoResultException e) {
-            throw new InvalidValueException("Funcionário inválido", e);
-        }
+        appointment.setWithDentist(withDentist.build());
 
         appointment.setObservations(observations != null && !observations.isBlank() ? observations : "");
 
         if (attachments != null) {
             appointment.setAttachments(new ArrayList<>());
-            for (Integer ids : attachments) {
-                Attachment attachment;
-                try {
-                    attachment = AttachmentController.getDAO().getById(ids);
-                } catch (NoResultException e) {
-                    throw new InvalidValueException("O anexo com id %s é inválido".formatted(ids), e);
-                }
-                appointment.getAttachments().add(attachment);
+            for (AttachmentDTO attachment : attachments) {
+                appointment.getAttachments().add(attachment.build());
             }
         }
 

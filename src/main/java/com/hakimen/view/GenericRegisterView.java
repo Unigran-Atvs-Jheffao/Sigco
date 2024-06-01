@@ -1,17 +1,19 @@
 package com.hakimen.view;
 
+import com.hakimen.view.components.RegisterPanel;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class GenericRegisterView extends JDialog implements View{
 
-    JPanel panel;
+    RegisterPanel<?> panel;
     JPanel buttonPanel;
     JButton saveButton;
     JButton cancelButton;
 
-    public <T extends JPanel & IRegistrable> GenericRegisterView(String title, T panel) {
+    public GenericRegisterView(String title, RegisterPanel<?> panel) {
         this.panel = panel;
 
         setTitle(title);
@@ -25,8 +27,6 @@ public class GenericRegisterView extends JDialog implements View{
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
-    //TODO: make a constructor that accepts a DTO to make it possible to edit a type
 
     public void addComponents(){
         buttonPanel = new JPanel();
@@ -47,9 +47,18 @@ public class GenericRegisterView extends JDialog implements View{
 
     public void attachActions(){
         saveButton.addActionListener(e -> {
-            if(panel instanceof IRegistrable registrable){
-                registrable.save();
+            if(panel.getType() == null){
+                if(!panel.save()){
+                    return;
+                }
+                JOptionPane.showMessageDialog(null, "Registro bem sucedido!");
+            }else{
+                if(!panel.edit()){
+                    return;
+                }
+                JOptionPane.showMessageDialog(null, "Atualizaçao bem sucedida!");
             }
+            dispose();
         });
 
         cancelButton.addActionListener(e -> {

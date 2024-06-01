@@ -47,4 +47,18 @@ public class MaterialController implements Controller<MaterialDTO> {
     public MaterialDTO getById(int id) throws InvalidValueException {
         return new MaterialDTO(MATERIAL_DAO.getById(id));
     }
+
+    public MaterialDTO getByIdIfMatches(int id, int matching) throws InvalidValueException {
+        Material material = MATERIAL_DAO.getById(id);
+        if(material.getId() == matching){
+            return new MaterialDTO(material);
+        }
+
+        return new MaterialDTO();
+    }
+
+
+    public List<MaterialDTO> findAllFiltered(boolean asc, String key, String query){
+        return MATERIAL_DAO.findAllFiltered(asc,key,query).stream().map(MaterialDTO::new).toList();
+    }
 }

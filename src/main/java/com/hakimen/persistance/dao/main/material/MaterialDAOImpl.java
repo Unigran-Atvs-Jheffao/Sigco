@@ -20,4 +20,18 @@ public class MaterialDAOImpl implements MaterialDAO{
         TypedQuery<Material> query = JPAInstance.INSTANCE.getManager().createQuery("select material from Material material", Material.class);
         return query.getResultList();
     }
+
+    @Override
+    public List<Material> findAllFiltered(boolean ascendent, String key, String searchQuery) {
+        String builtQuery = "select material from Material material where material.name like :search";
+
+        builtQuery += " order by material." + key;
+        builtQuery += ascendent ? " asc" : " desc";
+
+
+        TypedQuery<Material> query = JPAInstance.INSTANCE.getManager().createQuery(builtQuery, Material.class);
+
+        query.setParameter("search", "%" + searchQuery + "%");
+        return query.getResultList();
+    }
 }
