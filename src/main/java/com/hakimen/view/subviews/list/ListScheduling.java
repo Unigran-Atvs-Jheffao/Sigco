@@ -5,11 +5,13 @@ import com.hakimen.controllers.SchedulingController;
 import com.hakimen.controllers.dto.PaymentMethodDTO;
 import com.hakimen.controllers.dto.SchedulingDTO;
 import com.hakimen.exceptions.InvalidValueException;
+import com.hakimen.model.PaymentMethod;
 import com.hakimen.view.GenericRegisterView;
 import com.hakimen.view.IDisplayable;
 import com.hakimen.view.subviews.register.ScheduleAppointmentPanel;
 
 import javax.persistence.NoResultException;
+import javax.persistence.RollbackException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
@@ -73,6 +75,15 @@ public class ListScheduling implements IDisplayable {
     public void remove(DefaultTableModel tableModel, JTable table, int row) {
         try {
             SchedulingDTO dto = SchedulingController.INSTANCE.getById((Integer) tableModel.getValueAt(row,0));
+
+            try {
+                PaymentMethodDTO paymentMethodDTO = PaymentMethodController.INSTANCE.findByScheduleId(dto.getId());
+
+                PaymentMethodController.INSTANCE.remove(paymentMethodDTO);
+            } catch (NoResultException e) {
+                
+            }
+
             SchedulingController.INSTANCE.remove(dto);
         } catch (InvalidValueException e) {
             JOptionPane.showMessageDialog(null,"Erro: %s".formatted(e.getMessage()));

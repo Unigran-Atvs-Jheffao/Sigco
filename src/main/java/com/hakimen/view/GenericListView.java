@@ -37,7 +37,7 @@ public class GenericListView extends JFrame implements View {
         addComponents();
         attachActions();
 
-        setJMenuBar(AppContext.getBar(this));
+        setJMenuBar(displayable.addMenuItems(this,AppContext.getBar(this)));
 
         setVisible(true);
     }
@@ -67,9 +67,18 @@ public class GenericListView extends JFrame implements View {
         JPanel buttons = new JPanel();
         buttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
         buttons.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+        register.setEnabled(displayable.enabledButtons()[0]);
         buttons.add(register);
+
+
+        edit.setEnabled(displayable.enabledButtons()[1]);
         buttons.add(edit);
+
+
+        delete.setEnabled(displayable.enabledButtons()[2]);
         buttons.add(delete);
+
         add(buttons, BorderLayout.SOUTH);
 
         orderingMode = new JComboBox<>();
@@ -133,5 +142,13 @@ public class GenericListView extends JFrame implements View {
         orderedBy.addActionListener(onFilterChange);
         orderingMode.addActionListener(onFilterChange);
         searchButton.addActionListener(onFilterChange);
+    }
+
+    public JTable getTable() {
+        return table;
+    }
+
+    public DefaultTableModel getModel() {
+        return model;
     }
 }

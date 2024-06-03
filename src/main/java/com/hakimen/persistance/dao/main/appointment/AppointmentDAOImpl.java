@@ -1,6 +1,7 @@
 package com.hakimen.persistance.dao.main.appointment;
 
 import com.hakimen.model.Appointment;
+import com.hakimen.model.Employee;
 import com.hakimen.persistance.JPAInstance;
 
 import javax.persistence.NoResultException;
@@ -20,4 +21,6 @@ public class AppointmentDAOImpl implements AppointmentDAO {
         TypedQuery<Appointment> query = JPAInstance.INSTANCE.getManager().createQuery("select a from Appointment a", Appointment.class);
         return query.getResultList();
     }
+
+
 }

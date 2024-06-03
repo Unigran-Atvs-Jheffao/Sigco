@@ -5,6 +5,19 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Map;
 
 public interface IDisplayable {
+
+    default boolean[] enabledButtons() {
+        return new boolean[]{
+                true,   // Cadastrar
+                true,   // Editar
+                true,   // Remover
+        };
+    }
+
+    default JMenuBar addMenuItems(GenericListView genericListView, JMenuBar bar){
+        return bar;
+    }
+
     void setupTableColumns(DefaultTableModel tableModel, JTable table);
 
     void get(DefaultTableModel tableModel, JTable table, boolean isAscending, String filterKey, String searchString);

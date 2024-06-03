@@ -19,10 +19,6 @@ public class Pacient {
     private String homeNumber;
     private String responsible;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "medical_record_id")
-    private MedicalRecord medicalRecord;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contact_id")
     private Contact contact;
@@ -82,15 +78,6 @@ public class Pacient {
 
     public Pacient setResponsible(String responsible) {
         this.responsible = responsible;
-        return this;
-    }
-
-    public MedicalRecord getMedicalRecord() {
-        return medicalRecord;
-    }
-
-    public Pacient setMedicalRecord(MedicalRecord medicalRecord) {
-        this.medicalRecord = medicalRecord;
         return this;
     }
 

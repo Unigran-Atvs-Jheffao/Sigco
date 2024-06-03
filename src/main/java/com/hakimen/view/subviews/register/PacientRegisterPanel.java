@@ -70,13 +70,6 @@ public class PacientRegisterPanel extends RegisterPanel<PacientDTO> implements V
             PacientDTO pacientDTO = new PacientDTO();
             pacientDTO.setName(pacientName);
 
-            MedicalRecordDTO medicalRecord = new MedicalRecordDTO()
-                    .setHistory(new ArrayList<>());
-
-            MedicalRecordController.INSTANCE.insert(medicalRecord);
-
-            pacientDTO.setMedicalRecord(medicalRecord);
-
             pacientDTO.setCpf(pacientCPF);
             pacientDTO.setDateOfBirth(date);
             pacientDTO.setHomeNumber(home);
@@ -118,9 +111,6 @@ public class PacientRegisterPanel extends RegisterPanel<PacientDTO> implements V
             PacientDTO pacientDTO = new PacientDTO();
             pacientDTO.setId(getType().getId());
             pacientDTO.setName(pacientName);
-            pacientDTO.setMedicalRecord(
-                    getType().getMedicalRecord()
-            );
 
             ContactDTO contactDTO = getType().getContact()
                     .setValue(phone);

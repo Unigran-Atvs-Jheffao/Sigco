@@ -13,7 +13,8 @@ import java.util.List;
 
 public class MedicalRecordDTO implements DTO<MedicalRecord> {
     private Integer id;
-    private List<AppointmentDTO> history;
+    private PacientDTO forPacient;
+    private AppointmentDTO history;
 
     public Integer getId() {
         return id;
@@ -25,21 +26,31 @@ public class MedicalRecordDTO implements DTO<MedicalRecord> {
     }
 
 
-    public List<AppointmentDTO> getHistory() {
+    public AppointmentDTO getHistory() {
         return history;
     }
 
-    public MedicalRecordDTO setHistory(List<AppointmentDTO> history) {
+    public MedicalRecordDTO setHistory(AppointmentDTO history) {
         this.history = history;
         return this;
     }
 
     public MedicalRecordDTO(MedicalRecord medicalRecord) {
         id = medicalRecord.getId();
-        history = medicalRecord.getHistory().stream().map(AppointmentDTO::new).toList();
+        forPacient = new PacientDTO(medicalRecord.getForPacient());
+        history = new AppointmentDTO(medicalRecord.getHistory());
     }
 
     public MedicalRecordDTO() {
+    }
+
+    public PacientDTO getForPacient() {
+        return forPacient;
+    }
+
+    public MedicalRecordDTO setForPacient(PacientDTO forPacient) {
+        this.forPacient = forPacient;
+        return this;
     }
 
     @Override
@@ -48,13 +59,18 @@ public class MedicalRecordDTO implements DTO<MedicalRecord> {
 
         record.setId(id != null && id > 0 ? id : null);
 
-        if (history != null) {
-            record.setHistory(new ArrayList<>());
-            for (AppointmentDTO appointmentDTO : history) {
-                record.getHistory().add(appointmentDTO.build());
-            }
-        }
+        if (forPacient != null)
+            record.setForPacient(forPacient.build());
+        else
+            throw new InvalidValueException("Paciente Inválido");
+
+        if (history != null)
+            record.setHistory(history.build());
+        else
+            throw new InvalidValueException("Consulta Inválida");
 
         return record;
     }
+
+
 }

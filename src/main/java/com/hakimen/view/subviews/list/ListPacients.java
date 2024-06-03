@@ -5,6 +5,7 @@ import com.hakimen.controllers.PacientController;
 import com.hakimen.controllers.dto.MaterialDTO;
 import com.hakimen.controllers.dto.PacientDTO;
 import com.hakimen.exceptions.InvalidValueException;
+import com.hakimen.view.GenericListView;
 import com.hakimen.view.GenericRegisterView;
 import com.hakimen.view.IDisplayable;
 import com.hakimen.view.subviews.register.PacientRegisterPanel;
@@ -76,5 +77,28 @@ public class ListPacients implements IDisplayable {
         return Map.ofEntries(
                 Map.entry("Id", "id")
         );
+    }
+
+    @Override
+    public JMenuBar addMenuItems(GenericListView genericListView, JMenuBar bar) {
+        JMenu paciente = new JMenu("Paciente");
+
+        JMenuItem verProntuario = new JMenuItem("Ver Prontuário");
+
+        paciente.add(verProntuario);
+
+        verProntuario.addActionListener((e) -> {
+            int row = genericListView.getTable().getSelectedRow();
+            if(row != -1){
+                String name = (String) genericListView.getTable().getValueAt(row, 0);
+                new GenericListView("Prontuário de "+name, new ListMedicalRecordsForPacient(new PacientDTO().setName(name)));
+            }else {
+                JOptionPane.showMessageDialog(null, "Escolha uma linha na tabela");
+            }
+        });
+
+        bar.add(paciente);
+
+        return bar;
     }
 }

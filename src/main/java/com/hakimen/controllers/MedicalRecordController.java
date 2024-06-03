@@ -1,7 +1,9 @@
 package com.hakimen.controllers;
 
 import com.hakimen.controllers.dto.MedicalRecordDTO;
+import com.hakimen.controllers.dto.PacientDTO;
 import com.hakimen.exceptions.InvalidValueException;
+import com.hakimen.model.MedicalRecord;
 import com.hakimen.persistance.dao.main.medicalRecord.MedicalRecordDAO;
 import com.hakimen.persistance.dao.main.medicalRecord.MedicalRecordDAOImpl;
 
@@ -45,5 +47,17 @@ public class MedicalRecordController implements Controller<MedicalRecordDTO>{
     @Override
     public MedicalRecordDTO getById(int id) throws InvalidValueException {
         return new MedicalRecordDTO(MEDICAL_RECORD_DAO.getById(id));
+    }
+
+    public List<MedicalRecordDTO> findAllFiltered(String pacientName, boolean asc, String key, String query){
+        return MEDICAL_RECORD_DAO.findAllFiltered(pacientName, asc,key,query).stream().map(MedicalRecordDTO::new).toList();
+    }
+
+    public List<MedicalRecordDTO> getByPacient(Integer pacientId) {
+        return MEDICAL_RECORD_DAO.getByPacient(pacientId).stream().map(MedicalRecordDTO::new).toList();
+    }
+
+    public MedicalRecordDTO getByAppointment(Integer appoitmentId) {
+        return new MedicalRecordDTO(MEDICAL_RECORD_DAO.getByAppointment(appoitmentId));
     }
 }

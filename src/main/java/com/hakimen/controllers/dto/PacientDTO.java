@@ -23,7 +23,6 @@ public class PacientDTO implements DTO<Pacient> {
     private String homeNumber;
     private String responsible;
 
-    private MedicalRecordDTO medicalRecord;
     private ContactDTO contact;
     private AddressDTO address;
 
@@ -81,14 +80,6 @@ public class PacientDTO implements DTO<Pacient> {
         return this;
     }
 
-    public MedicalRecordDTO getMedicalRecord() {
-        return medicalRecord;
-    }
-
-    public PacientDTO setMedicalRecord(MedicalRecordDTO medicalRecord) {
-        this.medicalRecord = medicalRecord;
-        return this;
-    }
 
     public ContactDTO getContact() {
         return contact;
@@ -116,7 +107,6 @@ public class PacientDTO implements DTO<Pacient> {
         homeNumber = pacient.getHomeNumber();
         responsible = pacient.getResponsible();
 
-        medicalRecord = new MedicalRecordDTO(pacient.getMedicalRecord());
         contact = new ContactDTO(pacient.getContact());
         address = new AddressDTO(pacient.getAddress());
     }
@@ -148,7 +138,6 @@ public class PacientDTO implements DTO<Pacient> {
         pacient.setHomeNumber(homeNumber);
 
 
-        pacient.setMedicalRecord(medicalRecord.build());
         pacient.setContact(contact.build());
         pacient.setAddress(address.build());
 
