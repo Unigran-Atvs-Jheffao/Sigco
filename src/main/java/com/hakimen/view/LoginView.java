@@ -8,9 +8,11 @@ import com.hakimen.utils.HashingUtils;
 import com.hakimen.utils.ViewUtils;
 import com.hakimen.view.subviews.register.EmployeeRegisterPanel;
 
+import javax.persistence.NoResultException;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class LoginView extends JFrame implements View {
 
@@ -67,22 +69,28 @@ public class LoginView extends JFrame implements View {
             new GenericRegisterView("Registrar Funcionário", new EmployeeRegisterPanel());
         });
 
-        login.addActionListener(e -> {
+        ActionListener loginListener = e -> {
             String name = username.getText();
             String pass = password.getText();
 
 
             try {
                 EmployeeDTO login = EmployeeController.INSTANCE.getByUserAndPassword(name, HashingUtils.sha256(pass));
-                if(login != null) {
+                if (login != null) {
                     AppContext.setLoggedAs(login);
                     this.dispose();
                     ViewUtils.createWindow();
                 }
             } catch (InvalidValueException ex) {
                 throw new RuntimeException(ex);
+            } catch (NoResultException ex) {
+                JOptionPane.showMessageDialog(null, "Informações incorretas ou inexistentes");
             }
-        });
+        };
+
+        login.addActionListener(loginListener);
+        password.addActionListener(loginListener);
+        username.addActionListener(loginListener);
 
         cancel.addActionListener(e -> {
             this.dispose();

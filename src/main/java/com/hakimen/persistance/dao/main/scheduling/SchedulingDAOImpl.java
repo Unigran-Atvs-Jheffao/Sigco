@@ -25,7 +25,7 @@ public class SchedulingDAOImpl implements SchedulingDAO {
 
     @Override
     public List<Scheduling> findAllFiltered(boolean ascendent, String key, String searchQuery) {
-        String builtQuery = "select scheduling from Scheduling scheduling where scheduling.pacient.name like :search";
+        String builtQuery = "select scheduling from Scheduling scheduling where lower(scheduling.pacient.name) like :search";
 
         builtQuery += " order by scheduling." + key;
         builtQuery += ascendent ? " asc" : " desc";

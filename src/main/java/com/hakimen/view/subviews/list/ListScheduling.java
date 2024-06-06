@@ -17,6 +17,8 @@ import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import java.util.Map;
 
+import static com.hakimen.utils.ViewUtils.DATE_FORMATTER;
+
 public class ListScheduling implements IDisplayable {
     @Override
     public void setupTableColumns(DefaultTableModel tableModel, JTable table) {
@@ -38,8 +40,6 @@ public class ListScheduling implements IDisplayable {
 
         List<SchedulingDTO> dtos = SchedulingController.INSTANCE.findAllFiltered(isAscending,getFilter().get(filterKey), searchString);
 
-
-
         for (SchedulingDTO dto : dtos) {
             PaymentMethodDTO payment = null;
             try {
@@ -50,7 +50,7 @@ public class ListScheduling implements IDisplayable {
 
             tableModel.addRow(new Object[]{
                     dto.getId(),
-                    dto.getDate(),
+                    DATE_FORMATTER.getFormat().format(dto.getDate()),
                     dto.getAppointmentTime(),
                     dto.getPacient().getName(),
                     dto.getAppointment().getWithDentist().getLogin().getUsername(),

@@ -10,6 +10,7 @@ import com.hakimen.model.auxiliar.Attachment;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public class AppointmentDTO implements DTO<Appointment> {
@@ -88,7 +89,7 @@ public class AppointmentDTO implements DTO<Appointment> {
         appointment.setObservations(observations != null && !observations.isBlank() ? observations : "");
 
         if (attachments != null) {
-            appointment.setAttachments(new ArrayList<>());
+            appointment.setAttachments(new HashSet<>());
             for (AttachmentDTO attachment : attachments) {
                 appointment.getAttachments().add(attachment.build());
             }

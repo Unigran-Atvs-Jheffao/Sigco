@@ -24,7 +24,7 @@ public class PaymentMethodDAOImpl implements PaymentMethodDAO {
 
     @Override
     public List<PaymentMethod> findAllFiltered(boolean ascendent, String key, String searchQuery) {
-        String builtQuery = "select paymentMethod from PaymentMethod paymentMethod where paymentMethod.scheduling.pacient.name like :search";
+        String builtQuery = "select paymentMethod from PaymentMethod paymentMethod where lower(paymentMethod.scheduling.pacient.name) like :search";
 
         builtQuery += " order by paymentMethod." + key;
         builtQuery += ascendent ? " asc" : " desc";

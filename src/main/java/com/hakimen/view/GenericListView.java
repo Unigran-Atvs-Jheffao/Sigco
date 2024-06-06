@@ -37,7 +37,7 @@ public class GenericListView extends JFrame implements View {
         addComponents();
         attachActions();
 
-        setJMenuBar(displayable.addMenuItems(this,AppContext.getBar(this)));
+        setJMenuBar(displayable.addMenuItems(this, AppContext.getBar(this)));
 
         setVisible(true);
     }
@@ -88,8 +88,9 @@ public class GenericListView extends JFrame implements View {
         orderingMode.setMaximumSize(orderingMode.getMinimumSize());
 
         orderedBy = new JComboBox<>(
-                displayable.getFilter().keySet().stream().sorted().toList().toArray(String[]::new)
+                displayable.getFilter().keySet().toArray(String[]::new)
         );
+
         orderedBy.setPreferredSize(orderedBy.getMinimumSize());
         orderedBy.setMaximumSize(orderedBy.getMinimumSize());
 
@@ -110,14 +111,14 @@ public class GenericListView extends JFrame implements View {
 
         add(filters, BorderLayout.NORTH);
 
-        displayable.get(model, table, orderingMode.getSelectedItem().toString().equals("Ascending"), orderedBy.getSelectedItem().toString(), search.getText());
+        displayable.get(model, table, orderingMode.getSelectedItem().toString().equals("Ascending"), orderedBy.getSelectedItem().toString(), search.getText().toLowerCase());
     }
 
     @Override
     public void attachActions() {
 
         ActionListener onFilterChange = e -> {
-            displayable.get(model, table, orderingMode.getSelectedItem().toString().equals("Ascending"), orderedBy.getSelectedItem().toString(), search.getText());
+            displayable.get(model, table, orderingMode.getSelectedItem().toString().equals("Ascending"), orderedBy.getSelectedItem().toString(), search.getText().toLowerCase());
         };
 
         edit.addActionListener(e -> {
@@ -142,6 +143,8 @@ public class GenericListView extends JFrame implements View {
         orderedBy.addActionListener(onFilterChange);
         orderingMode.addActionListener(onFilterChange);
         searchButton.addActionListener(onFilterChange);
+
+        search.addActionListener(onFilterChange);
     }
 
     public JTable getTable() {

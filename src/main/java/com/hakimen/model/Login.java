@@ -8,6 +8,8 @@ public class Login {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Integer id;
+
+    @Column(unique = true)
     private String username;
     private String password;
 

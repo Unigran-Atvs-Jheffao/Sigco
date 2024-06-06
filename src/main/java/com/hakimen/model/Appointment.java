@@ -4,6 +4,7 @@ import com.hakimen.model.auxiliar.Attachment;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Appointment {
@@ -15,9 +16,10 @@ public class Appointment {
     @OneToOne
     @JoinColumn(name = "with_dentist_id")
     private Employee withDentist;
+
     @OneToMany
     @JoinColumn(name = "attachments_id")
-    private List<Attachment> attachments;
+    private Set<Attachment> attachments;
 
     private Float value;
 
@@ -48,11 +50,11 @@ public class Appointment {
         return this;
     }
 
-    public List<Attachment> getAttachments() {
+    public Set<Attachment> getAttachments() {
         return attachments;
     }
 
-    public Appointment setAttachments(List<Attachment> attachments) {
+    public Appointment setAttachments(Set<Attachment> attachments) {
         this.attachments = attachments;
         return this;
     }

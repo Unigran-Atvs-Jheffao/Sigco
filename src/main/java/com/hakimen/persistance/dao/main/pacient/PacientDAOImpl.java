@@ -31,7 +31,7 @@ public class PacientDAOImpl implements PacientDAO {
 
     @Override
     public List<Pacient> findAllFiltered(boolean ascendent, String key, String searchQuery) {
-        String builtQuery = "select pacient from Pacient pacient where pacient.name like :search";
+        String builtQuery = "select pacient from Pacient pacient where lower(pacient.name) like :search";
 
         builtQuery += " order by pacient." + key;
         builtQuery += ascendent ? " asc" : " desc";

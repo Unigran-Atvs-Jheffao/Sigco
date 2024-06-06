@@ -15,6 +15,8 @@ import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import java.util.Map;
 
+import static com.hakimen.utils.ViewUtils.DATE_FORMATTER;
+
 public class ListPacients implements IDisplayable {
     @Override
     public void setupTableColumns(DefaultTableModel tableModel, JTable table) {
@@ -39,7 +41,7 @@ public class ListPacients implements IDisplayable {
                     pacient.getId(),
                     pacient.getName(),
                     pacient.getCpf(),
-                    pacient.getDateOfBirth(),
+                    DATE_FORMATTER.getFormat().format(pacient.getDateOfBirth()),
                     pacient.getResponsible(),
                     pacient.getAddress().getStreet() + " " + pacient.getHomeNumber() + ", " + pacient.getAddress().getCity().getName() + " - " + pacient.getAddress().getCity().getState().getName()
             });
@@ -75,7 +77,11 @@ public class ListPacients implements IDisplayable {
     @Override
     public Map<String, String> getFilter() {
         return Map.ofEntries(
-                Map.entry("Id", "id")
+                Map.entry("Id", "id"),
+                Map.entry("Nome", "name"),
+                Map.entry("CPF", "cpf"),
+                Map.entry("Data de Nascimento","dateOfBirth"),
+                Map.entry("Responsável", "responsible")
         );
     }
 

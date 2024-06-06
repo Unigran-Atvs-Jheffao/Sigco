@@ -23,7 +23,7 @@ public class MaterialDAOImpl implements MaterialDAO{
 
     @Override
     public List<Material> findAllFiltered(boolean ascendent, String key, String searchQuery) {
-        String builtQuery = "select material from Material material where material.name like :search";
+        String builtQuery = "select material from Material material where lower(material.name) like :search";
 
         builtQuery += " order by material." + key;
         builtQuery += ascendent ? " asc" : " desc";

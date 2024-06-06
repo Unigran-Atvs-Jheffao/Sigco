@@ -28,7 +28,7 @@ public class ListEmployees implements IDisplayable {
     public void get(DefaultTableModel tableModel, JTable table, boolean isAscending, String filterKey, String searchString) {
         tableModel.setRowCount(0);
 
-        List<EmployeeDTO> dtos =EmployeeController.INSTANCE.findAllFiltered(isAscending,getFilter().get(filterKey), searchString);
+        List<EmployeeDTO> dtos = EmployeeController.INSTANCE.findAllFiltered(isAscending, getFilter().get(filterKey), searchString);
 
         for (EmployeeDTO dto : dtos) {
             tableModel.addRow(new Object[]{
@@ -43,12 +43,12 @@ public class ListEmployees implements IDisplayable {
     @Override
     public void edit(DefaultTableModel tableModel, JTable table, int row) {
 
-        Integer id = (Integer) tableModel.getValueAt(row,0);
+        Integer id = (Integer) tableModel.getValueAt(row, 0);
         try {
             EmployeeDTO dto = EmployeeController.INSTANCE.getById(id);
             new GenericRegisterView("Editar Funcionario", new EmployeeRegisterPanel(dto));
         } catch (InvalidValueException e) {
-            JOptionPane.showMessageDialog(null,"Erro: %s".formatted(e.getMessage()));
+            JOptionPane.showMessageDialog(null, "Erro: %s".formatted(e.getMessage()));
         }
 
 
@@ -56,11 +56,11 @@ public class ListEmployees implements IDisplayable {
 
     @Override
     public void remove(DefaultTableModel tableModel, JTable table, int row) {
-        Integer id = (Integer) tableModel.getValueAt(row,0);
+        Integer id = (Integer) tableModel.getValueAt(row, 0);
         try {
             EmployeeController.INSTANCE.remove(EmployeeController.INSTANCE.getById(id));
         } catch (InvalidValueException e) {
-            JOptionPane.showMessageDialog(null,"Erro: %s".formatted(e.getMessage()));
+            JOptionPane.showMessageDialog(null, "Erro: %s".formatted(e.getMessage()));
         }
     }
 

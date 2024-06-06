@@ -34,11 +34,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public List<Employee> findAllFiltered(boolean ascendent, String key, String searchQuery) {
-        String builtQuery = "select employee from Employee employee where employee.login.username like :search";
+        String builtQuery = "select employee from Employee employee where lower(employee.login.username) like :search";
 
         builtQuery += " order by employee." + key;
         builtQuery += ascendent ? " asc" : " desc";
-
 
         TypedQuery<Employee> query = JPAInstance.INSTANCE.getManager().createQuery(builtQuery, Employee.class);
 

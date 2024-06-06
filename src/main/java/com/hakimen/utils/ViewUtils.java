@@ -7,11 +7,14 @@ import com.hakimen.view.subviews.list.ListScheduling;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DateFormatter;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 public class ViewUtils {
+    public static final DateFormatter DATE_FORMATTER = new DateFormatter(new SimpleDateFormat("dd/MM/yyyy"));
     public static JPanel makeFieldAndLabel(String fieldName, JComponent component) {
         JPanel panel = new JPanel();
 
