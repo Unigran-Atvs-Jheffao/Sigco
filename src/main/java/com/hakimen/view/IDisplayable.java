@@ -26,6 +26,7 @@ public interface IDisplayable {
 
     void remove(DefaultTableModel tableModel, JTable table, int row);
 
+
     void register();
 
     Map<String, String> getFilter();

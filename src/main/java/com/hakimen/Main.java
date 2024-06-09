@@ -7,7 +7,6 @@ import com.hakimen.controllers.auxiliar.PaymentTypeController;
 import com.hakimen.controllers.dto.RoleDTO;
 import com.hakimen.controllers.dto.auxiliar.PaymentTypeDTO;
 import com.hakimen.exceptions.InvalidValueException;
-import com.hakimen.view.GenericListView;
 import com.hakimen.view.LoginView;
 
 import javax.persistence.NoResultException;

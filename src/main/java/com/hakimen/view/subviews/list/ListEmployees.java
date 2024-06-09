@@ -3,17 +3,27 @@ package com.hakimen.view.subviews.list;
 import com.hakimen.controllers.EmployeeController;
 import com.hakimen.controllers.dto.EmployeeDTO;
 import com.hakimen.exceptions.InvalidValueException;
+import com.hakimen.persistance.JPAInstance;
+import com.hakimen.utils.ReportingUtils;
 import com.hakimen.view.GenericRegisterView;
 import com.hakimen.view.IDisplayable;
+import com.hakimen.view.IReportable;
 import com.hakimen.view.subviews.register.EmployeeRegisterPanel;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
 import org.eclipse.persistence.internal.jaxb.many.MapEntry;
+import org.eclipse.persistence.sessions.Session;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ListEmployees implements IDisplayable {
+public class ListEmployees implements IDisplayable, IReportable {
     @Override
     public void setupTableColumns(DefaultTableModel tableModel, JTable table) {
         tableModel.addColumn("id");
@@ -77,5 +87,14 @@ public class ListEmployees implements IDisplayable {
                 Map.entry("Cargo", "login.role.name"),
                 Map.entry("Registro", "registration")
         );
+    }
+
+    @Override
+    public void report() {
+        try {
+            JasperViewer.viewReport(ReportingUtils.getReport("reports/employees.jrxml", new HashMap<>()), false);
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, "Erro: %s".formatted(e.getMessage()));
+        }
     }
 }

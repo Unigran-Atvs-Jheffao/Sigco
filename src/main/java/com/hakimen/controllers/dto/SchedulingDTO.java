@@ -1,15 +1,8 @@
 package com.hakimen.controllers.dto;
 
-import com.hakimen.controllers.AppointmentController;
-import com.hakimen.controllers.EmployeeController;
-import com.hakimen.controllers.PacientController;
 import com.hakimen.exceptions.InvalidValueException;
-import com.hakimen.model.Appointment;
-import com.hakimen.model.Employee;
-import com.hakimen.model.Pacient;
 import com.hakimen.model.Scheduling;
 
-import javax.persistence.NoResultException;
 import java.util.Date;
 
 public class SchedulingDTO implements DTO<Scheduling>{
@@ -17,6 +10,7 @@ public class SchedulingDTO implements DTO<Scheduling>{
     private Date date;
     private String appointmentTime;
     private PacientDTO pacient;
+    private EmployeeDTO dentist;
     private EmployeeDTO receptionist;
     private AppointmentDTO appointment;
 
@@ -30,6 +24,15 @@ public class SchedulingDTO implements DTO<Scheduling>{
 
     public SchedulingDTO setId(Integer id) {
         this.id = id;
+        return this;
+    }
+
+    public EmployeeDTO getDentist() {
+        return dentist;
+    }
+
+    public SchedulingDTO setDentist(EmployeeDTO dentist) {
+        this.dentist = dentist;
         return this;
     }
 
@@ -82,7 +85,7 @@ public class SchedulingDTO implements DTO<Scheduling>{
         this.id = scheduling.getId();
         this.date = scheduling.getDate();
         this.appointmentTime = scheduling.getAppointmentTime();
-
+        this.dentist = new EmployeeDTO(scheduling.getDentist());
         this.pacient = new PacientDTO(scheduling.getPacient());
         this.receptionist = new EmployeeDTO(scheduling.getReceptionist());
         this.appointment = new AppointmentDTO(scheduling.getAppointment());
@@ -109,6 +112,7 @@ public class SchedulingDTO implements DTO<Scheduling>{
         scheduling.setAppointmentTime(appointmentTime);
 
         scheduling.setReceptionist(receptionist.build());
+        scheduling.setDentist(dentist.build());
         scheduling.setPacient(pacient.build());
         scheduling.setAppointment(appointment.build());
 

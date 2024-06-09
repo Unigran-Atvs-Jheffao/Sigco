@@ -1,20 +1,12 @@
 package com.hakimen.controllers.dto;
 
-import com.hakimen.controllers.AppointmentController;
-import com.hakimen.controllers.PacientController;
 import com.hakimen.exceptions.InvalidValueException;
-import com.hakimen.model.Appointment;
 import com.hakimen.model.MedicalRecord;
-import com.hakimen.model.Pacient;
-
-import javax.persistence.NoResultException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MedicalRecordDTO implements DTO<MedicalRecord> {
     private Integer id;
     private PacientDTO forPacient;
-    private AppointmentDTO history;
+    private SchedulingDTO history;
 
     public Integer getId() {
         return id;
@@ -26,11 +18,11 @@ public class MedicalRecordDTO implements DTO<MedicalRecord> {
     }
 
 
-    public AppointmentDTO getHistory() {
+    public SchedulingDTO getHistory() {
         return history;
     }
 
-    public MedicalRecordDTO setHistory(AppointmentDTO history) {
+    public MedicalRecordDTO setHistory(SchedulingDTO history) {
         this.history = history;
         return this;
     }
@@ -38,7 +30,7 @@ public class MedicalRecordDTO implements DTO<MedicalRecord> {
     public MedicalRecordDTO(MedicalRecord medicalRecord) {
         id = medicalRecord.getId();
         forPacient = new PacientDTO(medicalRecord.getForPacient());
-        history = new AppointmentDTO(medicalRecord.getHistory());
+        history = new SchedulingDTO(medicalRecord.getHistory());
     }
 
     public MedicalRecordDTO() {

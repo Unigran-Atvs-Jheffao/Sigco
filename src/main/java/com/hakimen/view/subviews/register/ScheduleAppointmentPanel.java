@@ -3,6 +3,7 @@ package com.hakimen.view.subviews.register;
 import com.hakimen.controllers.*;
 import com.hakimen.controllers.dto.*;
 import com.hakimen.exceptions.InvalidValueException;
+import com.hakimen.model.Scheduling;
 import com.hakimen.utils.ViewUtils;
 import com.hakimen.view.GenericRegisterView;
 import com.hakimen.view.View;
@@ -12,15 +13,12 @@ import com.toedter.calendar.JDateChooser;
 
 import javax.persistence.NoResultException;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class ScheduleAppointmentPanel extends RegisterPanel<SchedulingDTO> implements View {
 
@@ -61,6 +59,7 @@ public class ScheduleAppointmentPanel extends RegisterPanel<SchedulingDTO> imple
             appointmentDTO.setWithDentist(EmployeeController.INSTANCE.getByNameIfRoleIdMatches(dentistName, id -> id == 2 || id == 1));
 
             SchedulingDTO schedulingDTO = new SchedulingDTO();
+            schedulingDTO.setDentist(appointmentDTO.getWithDentist());
             schedulingDTO.setAppointment(appointmentDTO);
             schedulingDTO.setDate(date);
             schedulingDTO.setAppointmentTime(time);
@@ -69,11 +68,9 @@ public class ScheduleAppointmentPanel extends RegisterPanel<SchedulingDTO> imple
             PacientDTO pacientDTO = PacientController.INSTANCE.getByCPF(pacientCPF);
             schedulingDTO.setPacient(pacientDTO);
 
-            SchedulingController.INSTANCE.insert(schedulingDTO);
-
             MedicalRecordController.INSTANCE.insert(new MedicalRecordDTO()
                     .setForPacient(pacientDTO)
-                    .setHistory(schedulingDTO.getAppointment())
+                    .setHistory(schedulingDTO)
             );
             return true;
         } catch (InvalidValueException e) {
@@ -99,6 +96,7 @@ public class ScheduleAppointmentPanel extends RegisterPanel<SchedulingDTO> imple
             appointmentDTO.setWithDentist(EmployeeController.INSTANCE.getByNameIfRoleIdMatches(dentistName, id -> id == 2 || id == 1));
 
             SchedulingDTO schedulingDTO = new SchedulingDTO();
+            schedulingDTO.setDentist(appointmentDTO.getWithDentist());
             schedulingDTO.setId(getType().getId());
             schedulingDTO.setAppointment(appointmentDTO);
             schedulingDTO.setDate(date);
@@ -111,7 +109,9 @@ public class ScheduleAppointmentPanel extends RegisterPanel<SchedulingDTO> imple
 
             MedicalRecordController.INSTANCE.update(
                     MedicalRecordController.INSTANCE.getByAppointment(appointmentDTO.getId())
-                            .setForPacient(schedulingDTO.getPacient()));
+                                .setForPacient(schedulingDTO.getPacient()
+                            )
+            );
             return true;
         } catch (InvalidValueException e) {
             JOptionPane.showMessageDialog(null, "Erro : %s".formatted(e.getMessage()), "Erro", JOptionPane.ERROR_MESSAGE);

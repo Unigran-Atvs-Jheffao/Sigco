@@ -27,7 +27,7 @@ public class MedicalRecordDAOImpl implements MedicalRecordDAO {
 
     @Override
     public List<MedicalRecord> findAllFiltered(String pacientName, boolean ascendent, String key, String searchQuery) {
-        String builtQuery = "select record from MedicalRecord record where record.forPacient.name = :pacient and lower(record.history.withDentist.login.username) like :search";
+        String builtQuery = "select record from MedicalRecord record where record.forPacient.name = :pacient and lower(record.history.appointment.withDentist.login.username) like :search";
 
         builtQuery += " order by record." + key;
         builtQuery += ascendent ? " asc" : " desc";

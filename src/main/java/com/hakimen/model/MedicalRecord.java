@@ -1,5 +1,8 @@
 package com.hakimen.model;
 
+import com.hakimen.controllers.dto.SchedulingDTO;
+import org.eclipse.persistence.jpa.config.Cascade;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,9 +16,9 @@ public class MedicalRecord {
     @JoinColumn(name = "for_pacient_id")
     private Pacient forPacient;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "appointment_id")
-    Appointment history;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "scheduling")
+    Scheduling history;
 
     public Pacient getForPacient() {
         return forPacient;
@@ -35,11 +38,11 @@ public class MedicalRecord {
         return this;
     }
 
-    public Appointment getHistory() {
+    public Scheduling getHistory() {
         return history;
     }
 
-    public MedicalRecord setHistory(Appointment history) {
+    public MedicalRecord setHistory(Scheduling history) {
         this.history = history;
         return this;
     }

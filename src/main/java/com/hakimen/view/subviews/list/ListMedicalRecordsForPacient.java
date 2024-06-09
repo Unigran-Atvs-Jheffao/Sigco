@@ -1,18 +1,11 @@
 package com.hakimen.view.subviews.list;
 
-import com.hakimen.controllers.AppointmentController;
-import com.hakimen.controllers.EmployeeController;
 import com.hakimen.controllers.MedicalRecordController;
 import com.hakimen.controllers.dto.AppointmentDTO;
-import com.hakimen.controllers.dto.EmployeeDTO;
 import com.hakimen.controllers.dto.MedicalRecordDTO;
 import com.hakimen.controllers.dto.PacientDTO;
-import com.hakimen.exceptions.InvalidValueException;
-import com.hakimen.model.MedicalRecord;
 import com.hakimen.view.GenericListView;
-import com.hakimen.view.GenericRegisterView;
 import com.hakimen.view.IDisplayable;
-import com.hakimen.view.subviews.register.EmployeeRegisterPanel;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -48,9 +41,9 @@ public class ListMedicalRecordsForPacient implements IDisplayable {
             tableModel.addRow(
                     new Object[]{
                             medicalRecordDTO.getId(),
-                            medicalRecordDTO.getHistory().getWithDentist().getLogin().getUsername(),
-                            medicalRecordDTO.getHistory().getObservations(),
-                            medicalRecordDTO.getHistory().getValue(),
+                            medicalRecordDTO.getHistory().getAppointment().getWithDentist().getLogin().getUsername(),
+                            medicalRecordDTO.getHistory().getAppointment().getObservations(),
+                            medicalRecordDTO.getHistory().getAppointment().getValue(),
                     }
             );
         }
@@ -75,9 +68,9 @@ public class ListMedicalRecordsForPacient implements IDisplayable {
     public Map<String, String> getFilter() {
         return Map.ofEntries(
                 Map.entry("Id", "id"),
-                Map.entry("Dentista", "history.withDentist"),
-                Map.entry("Observações", "history.observations"),
-                Map.entry("Valor (R$)", "history.value")
+                Map.entry("Dentista", "history.appointment.withDentist"),
+                Map.entry("Observações", "history.appointment.observations"),
+                Map.entry("Valor (R$)", "history.appointment.value")
         );
     }
 

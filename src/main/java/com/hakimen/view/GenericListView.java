@@ -37,7 +37,26 @@ public class GenericListView extends JFrame implements View {
         addComponents();
         attachActions();
 
-        setJMenuBar(displayable.addMenuItems(this, AppContext.getBar(this)));
+
+        JMenuBar menuBar = displayable.addMenuItems(this, AppContext.getBar(this));
+
+        if(displayable instanceof IReportable reportable){
+            JMenu report = new JMenu("Relatório");
+            JMenuItem item = new JMenuItem("Gerar Relatório");
+
+            item.addActionListener((e) -> {
+                Thread t = new Thread(() -> {
+                    setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+                    reportable.report();
+                    setCursor(Cursor.getDefaultCursor());
+                });
+                t.start();
+            });
+            report.add(item);
+            menuBar.add(report);
+        }
+
+        setJMenuBar(menuBar);
 
         setVisible(true);
     }

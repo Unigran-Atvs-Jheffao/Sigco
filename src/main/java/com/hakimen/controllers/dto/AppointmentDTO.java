@@ -1,15 +1,9 @@
 package com.hakimen.controllers.dto;
 
-import com.hakimen.controllers.auxiliar.AttachmentController;
-import com.hakimen.controllers.EmployeeController;
 import com.hakimen.controllers.dto.auxiliar.AttachmentDTO;
 import com.hakimen.exceptions.InvalidValueException;
 import com.hakimen.model.Appointment;
-import com.hakimen.model.Employee;
-import com.hakimen.model.auxiliar.Attachment;
 
-import javax.persistence.NoResultException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 

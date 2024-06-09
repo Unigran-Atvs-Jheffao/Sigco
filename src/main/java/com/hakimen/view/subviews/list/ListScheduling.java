@@ -1,25 +1,32 @@
 package com.hakimen.view.subviews.list;
 
+import com.hakimen.controllers.MedicalRecordController;
 import com.hakimen.controllers.PaymentMethodController;
 import com.hakimen.controllers.SchedulingController;
 import com.hakimen.controllers.dto.PaymentMethodDTO;
 import com.hakimen.controllers.dto.SchedulingDTO;
 import com.hakimen.exceptions.InvalidValueException;
 import com.hakimen.model.PaymentMethod;
+import com.hakimen.persistance.JPAInstance;
+import com.hakimen.utils.ReportingUtils;
 import com.hakimen.view.GenericRegisterView;
 import com.hakimen.view.IDisplayable;
+import com.hakimen.view.IReportable;
 import com.hakimen.view.subviews.register.ScheduleAppointmentPanel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.view.JasperViewer;
 
 import javax.persistence.NoResultException;
 import javax.persistence.RollbackException;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.hakimen.utils.ViewUtils.DATE_FORMATTER;
 
-public class ListScheduling implements IDisplayable {
+public class ListScheduling implements IDisplayable, IReportable {
     @Override
     public void setupTableColumns(DefaultTableModel tableModel, JTable table) {
         tableModel.addColumn("id");
@@ -53,7 +60,7 @@ public class ListScheduling implements IDisplayable {
                     DATE_FORMATTER.getFormat().format(dto.getDate()),
                     dto.getAppointmentTime(),
                     dto.getPacient().getName(),
-                    dto.getAppointment().getWithDentist().getLogin().getUsername(),
+                    dto.getDentist().getLogin().getUsername(),
                     dto.getReceptionist().getLogin().getUsername(),
                     dto.getAppointment().getValue(),
                     payment != null ? payment.getType().getName() : "Não Pago",
@@ -84,6 +91,8 @@ public class ListScheduling implements IDisplayable {
                 
             }
 
+            MedicalRecordController.INSTANCE.remove(MedicalRecordController.INSTANCE.getByAppointment(dto.getAppointment().getId()));
+
             SchedulingController.INSTANCE.remove(dto);
         } catch (InvalidValueException e) {
             JOptionPane.showMessageDialog(null,"Erro: %s".formatted(e.getMessage()));
@@ -106,5 +115,14 @@ public class ListScheduling implements IDisplayable {
                 Map.entry("Recepcionista", "receptionist.login.username"),
                 Map.entry("Valor (R$)", "appointment.value")
         );
+    }
+
+    @Override
+    public void report() {
+        try {
+            JasperViewer.viewReport(ReportingUtils.getReport("reports/schedules.jrxml", new HashMap<>()), false);
+        } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, "Erro: %s".formatted(e.getMessage()));
+        }
     }
 }

@@ -36,6 +36,9 @@ dependencies {
     //Lib de componente de calendario
     implementation 'com.toedter:jcalendar:1.4'
 
+    //Lib do Jasper Reports
+    implementation 'net.sf.jasperreports:jasperreports:6.21.3'
+
 
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'

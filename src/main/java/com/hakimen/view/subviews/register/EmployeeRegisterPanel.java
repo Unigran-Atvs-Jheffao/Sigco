@@ -9,6 +9,8 @@ import com.hakimen.exceptions.InvalidValueException;
 import com.hakimen.utils.HashingUtils;
 import com.hakimen.utils.ViewUtils;
 import com.hakimen.view.components.RegisterPanel;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +18,7 @@ import java.awt.*;
 
 public class EmployeeRegisterPanel extends RegisterPanel<EmployeeDTO> {
 
+    private static final Log log = LogFactory.getLog(EmployeeRegisterPanel.class);
     public JTextField nameField;
     public JPasswordField passwordField;
     public JComboBox<String> roleComboBox;
@@ -80,6 +83,7 @@ public class EmployeeRegisterPanel extends RegisterPanel<EmployeeDTO> {
         }
 
         LoginDTO login = new LoginDTO();
+        login.setId(getType().getLogin().getId());
         login.setUsername(name);
         login.setPassword(!password.isBlank() ? HashingUtils.sha256(password) : getType().getLogin().getPassword());
         login.setRole(dto);

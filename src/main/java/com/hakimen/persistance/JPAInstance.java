@@ -1,8 +1,14 @@
 package com.hakimen.persistance;
 
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.sql.Connection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JPAInstance {
     public static final JPAInstance INSTANCE = new JPAInstance();
@@ -41,4 +47,5 @@ public class JPAInstance {
         manager.merge(obj);
         manager.getTransaction().commit();
     }
+
 }
